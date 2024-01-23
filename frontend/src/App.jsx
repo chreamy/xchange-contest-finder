@@ -7,9 +7,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" /*element={<Layout />}*/>
-          <Route index element={<List />} />
-          <Route path="contest-list" element={<List />} />
-          <Route path="contest-detail" element={<Detail />} />
+          <Route index element={<contestList />} />
+          <Route path="contest-list" element={<contestList />} />
+          <Route path="contest-detail" element={<contestDetail />} />
         </Route>
       </Routes>
     </Router>
