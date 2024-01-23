@@ -1,2 +1,2 @@
-export { default as contestList } from "./contestList";
-export { default as contestDetail } from "./contestDetail";
+export { default as ContestList } from "./contestList";
+export { default as ContestDetail } from "./contestDetail";

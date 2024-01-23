@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class contestDetail extends Component {
+class ContestDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -11,4 +11,4 @@ class contestDetail extends Component {
   }
 }
 
-export default contestDetail;
+export default ContestDetail;
