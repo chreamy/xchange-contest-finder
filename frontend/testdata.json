@@ -18,7 +18,7 @@
     "address": "456 Music Ave",
     "coordinates": [-118.2437, 34.0522],
     "media": ["https://placeholder.com/103", "https://placeholder.com/892"],
-    "tags": ["music", "festival"],
+    "tags": ["music", "innovation"],
     "created": "2024-01-23T14:36:48.547289",
     "updated": "2024-01-23T14:36:48.547292",
     "status": "archived"
@@ -30,7 +30,7 @@
     "address": "789 Science Blvd",
     "coordinates": [-87.6298, 41.8781],
     "media": ["https://placeholder.com/261", "https://placeholder.com/317"],
-    "tags": ["science", "education"],
+    "tags": ["science", "innovation"],
     "created": "2024-01-23T14:36:48.547312",
     "updated": "2024-01-23T14:36:48.547316",
     "status": "rejected"
