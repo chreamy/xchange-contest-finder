@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Art Contest",
+    "date": "2024-02-03T14:36:48.547223",
+    "description": "A contest for emerging artists.",
+    "address": "123 Art Street",
+    "coordinates": [-74.006, 40.7128],
+    "media": ["https://placeholder.com/838", "https://placeholder.com/882"],
+    "tags": ["art", "creativity"],
+    "created": "2024-01-23T14:36:48.547257",
+    "updated": "2024-01-23T14:36:48.547261",
+    "status": "pending"
+  },
+  {
+    "name": "Music Fest",
+    "date": "2024-01-26T14:36:48.547272",
+    "description": "A festival celebrating local music.",
+    "address": "456 Music Ave",
+    "coordinates": [-118.2437, 34.0522],
+    "media": ["https://placeholder.com/103", "https://placeholder.com/892"],
+    "tags": ["music", "festival"],
+    "created": "2024-01-23T14:36:48.547289",
+    "updated": "2024-01-23T14:36:48.547292",
+    "status": "archived"
+  },
+  {
+    "name": "Science Fair",
+    "date": "2024-02-14T14:36:48.547298",
+    "description": "A fair showcasing science projects.",
+    "address": "789 Science Blvd",
+    "coordinates": [-87.6298, 41.8781],
+    "media": ["https://placeholder.com/261", "https://placeholder.com/317"],
+    "tags": ["science", "education"],
+    "created": "2024-01-23T14:36:48.547312",
+    "updated": "2024-01-23T14:36:48.547316",
+    "status": "rejected"
+  },
+  {
+    "name": "Sports Meet",
+    "date": "2024-01-30T14:36:48.547322",
+    "description": "A meet for amateur athletes.",
+    "address": "101 Sports Lane",
+    "coordinates": [-95.3698, 29.7604],
+    "media": ["https://placeholder.com/613", "https://placeholder.com/223"],
+    "tags": ["sports", "health"],
+    "created": "2024-01-23T14:36:48.547337",
+    "updated": "2024-01-23T14:36:48.547340",
+    "status": "approved"
+  },
+  {
+    "name": "Tech Hackathon",
+    "date": "2024-02-15T14:36:48.547346",
+    "description": "A hackathon focused on new technologies.",
+    "address": "202 Tech Drive",
+    "coordinates": [-122.4194, 37.7749],
+    "media": ["https://placeholder.com/884", "https://placeholder.com/875"],
+    "tags": ["technology", "innovation"],
+    "created": "2024-01-23T14:36:48.547360",
+    "updated": "2024-01-23T14:36:48.547363",
+    "status": "pending"
+  }
+]
