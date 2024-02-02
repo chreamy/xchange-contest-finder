@@ -1,0 +1,24 @@
+.background {
+  background-color: #92aa83;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  color: white;
+}
+
+#logo,
+#logo0 {
+  font-size: 3rem;
+  font-weight: 100;
+  margin: 0px;
+}
+
+#logo {
+  color: white;
+  padding-right: 5%;
+}
+
+#logo0 {
+  color: #92aa83;
+}

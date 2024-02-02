@@ -1,0 +1,68 @@
+* {
+  color: white;
+}
+
+.background {
+  background-color: #92aa83;
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 0;
+}
+
+#logo {
+  font-size: 3rem;
+  font-weight: 100;
+  flex-grow: 0.5;
+  padding-left: 5%;
+  margin: 0px;
+}
+
+.pageLink {
+  border: none;
+  background-color: #92aa83;
+  font-size: larger;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  flex-grow: 2;
+}
+
+.searchBar input {
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  padding: 0.3rem;
+  width: 70%;
+}
+
+.searchBar button {
+  background-color: rgba(220, 220, 220, 0.5);
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#signUp {
+  border: none;
+  background-color: #92aa83;
+  font-size: 16px;
+  flex-grow: 1;
+}
+
+#logIn {
+  background-color: rgba(220, 220, 220, 0.5);
+  font-size: 16px;
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0.8rem 0rem;
+  margin-right: 5%;
+  flex-grow: 1;
+}
+
+.space {
+  flex-grow: 5;
+}
