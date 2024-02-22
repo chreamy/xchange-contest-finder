@@ -3,7 +3,7 @@ const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(
   "436307408633-hnr8ld1jgqgmbcohbt068jc4hq34bcvb.apps.googleusercontent.com"
 );
-
+let User = require("../schemas/user");
 router.post("/google-login", async (req, res) => {
   const { token } = req.body;
   try {
@@ -13,7 +13,7 @@ router.post("/google-login", async (req, res) => {
     });
     const payload = ticket.getPayload();
     console.log(payload["sub"]);
-    const user = await User.findOne({ googleId: payload["sub"] });
+    const user = await User.findOne({ userId: payload["sub"] });
 
     if (user) {
       res.status(200).json({ message: "User already exists", user: user });
@@ -22,7 +22,6 @@ router.post("/google-login", async (req, res) => {
         googleId: payload["sub"],
         email: payload["email"],
         name: payload["name"],
-        picture: payload["picture"],
       });
 
       await newUser.save();
