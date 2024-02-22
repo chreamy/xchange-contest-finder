@@ -60,7 +60,7 @@ def crawlContestTitleLink(driver):
         #time.sleep(2)
         count += 1
 
-    saveContestData(contestDataList)
+    saveContestList(contestDataList)
 
     # 呼叫searchContest函式
     searchContest(driver,contestDataList,contestSum)
@@ -137,20 +137,26 @@ def searchContest(driver,contestDataList,contestSum):
         
         print('Scraped',contestDataList[index]['title'])
         index += 1
-        
-    
-    saveContestData(contestDataList)
+        saveContestDetail(contestDataList)
 
 # 將contestDataList存成csv和json檔
-def saveContestData(contestDataList):
+def saveContestList(contestDataList):
 
     # 將contestDataList存成csv和json檔
     df = pd.DataFrame(contestDataList)
-    df.to_csv('contest_data.csv', index=False)
+    df.to_csv('./contest_data.csv', index=False)
     data = df.to_dict(orient='records')
-    with open('contest_data.json', 'w', encoding='utf-8') as file:
+    with open('./contest_data.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
+def saveContestDetail(contestDataList):
+
+    # 將contestDataList存成csv和json檔
+    df = pd.DataFrame(contestDataList)
+    df.to_csv('./contest_detail.csv', index=False)
+    data = df.to_dict(orient='records')
+    with open('./contest_detail.json', 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     ua = UserAgent()
