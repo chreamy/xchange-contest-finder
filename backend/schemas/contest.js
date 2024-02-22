@@ -7,7 +7,7 @@ const contestSchema = new Schema({
   name: { type: String, required: true },
   date: { type: Date, required: true },
   description: { type: String, required: true },
-  address: { type: String, required: true },
+  address: String,
   coordinates: {
     type: [Number],
     validate: {
