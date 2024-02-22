@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv/config");
+const crawlerRoutes = require("./routes/crawler"); // Import the router
+
 const app = express();
 const mongoose = require("mongoose");
 const port = 3001;
+const crawlerRoutes = require("./routes/crawler");
 app.use(express.json());
 app.use(
   cors({
@@ -23,6 +26,7 @@ app.use("/user", userRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.use("/crawler", crawlerRoutes);
 app.listen(port, () => {
   console.log(`Backend server is listening at http://localhost:${port}`);
 });
