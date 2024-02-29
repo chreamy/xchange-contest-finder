@@ -13,12 +13,14 @@
 }
 
 .descriptionArea {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   padding: 0% 10%;
   border-radius: 0px 0px 15px 15px;
 }
 
-.name {
+.title {
   display: flex;
   color: black;
   font-size: 28px;
@@ -26,14 +28,13 @@
   margin: 16px 0px 28px 0px;
 }
 
-.description {
+/* .description {
   color: #92aa83;
-}
+} */
 
 .readMore {
   color: #92aa83;
-  border: none;
-  background-color: white;
-  margin: 28px 0px 16px 0px;
-  padding-left: 60%;
+  text-decoration: none;
+  padding: 16px 0px;
+  align-self: flex-end;
 }
