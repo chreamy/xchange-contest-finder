@@ -153,6 +153,7 @@ def saveContestDetail(contestDataList):
 
     # 將contestDataList存成csv和json檔
     df = pd.DataFrame(contestDataList)
+    df = df.where(pd.notnull(df), None)
     df.to_csv('./contest_detail.csv', index=False)
     data = df.to_dict(orient='records')
     with open('./contest_detail.json', 'w', encoding='utf-8') as file:

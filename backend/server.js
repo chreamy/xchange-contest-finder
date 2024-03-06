@@ -23,6 +23,8 @@ connection.once("open", () => {
 });
 const userRouter = require("./routes/user");
 app.use("/user", userRouter);
+const contestRouter = require("./routes/contest");
+app.use("/contest", contestRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
