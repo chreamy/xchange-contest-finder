@@ -11,10 +11,11 @@ const teamSchema = new Schema({
         type:String,
         required:true,
     },
-    usersId:{
-        type:[String],
+    usersId:[{
+        type:Schema.Types.ObjectId,
+        ref:"User",
         required:true,
-    },
+    }],
     introduction:String,
 });
 
