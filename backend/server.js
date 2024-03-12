@@ -21,9 +21,11 @@ connection.once("open", () => {
   console.log("mongo connected!");
 });
 const userRouter = require("./routes/user");
+const teamRouter = require("./routes/team");
 app.use("/user", userRouter);
 const contestRouter = require("./routes/contest");
 app.use("/contest", contestRouter);
+app.use("/team", teamRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
