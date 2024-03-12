@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv/config");
-const crawlerRoutes = require("./routes/crawler"); // Import the router
 
 const app = express();
 const mongoose = require("mongoose");
