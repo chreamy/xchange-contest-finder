@@ -21,6 +21,14 @@ const userSchema = new Schema({
     required: true,
     minLength: 6,
   },
+  identity: {
+    type: String,
+    required: true,
+  },
+  birthday: {
+    type: Date,
+    default: Date.now(),
+  },
 
 });
 
