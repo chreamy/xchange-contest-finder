@@ -1,12 +1,20 @@
 const router = require('express').Router();
 
 let Team = require('../schemas/team');
+let Message = require('../schemas/message');
+
 
 // create team
+// 辨識該user是否已經建立過 team or 參加 team
 router.post("/", async (req,res) => {
     try{
+        if (!req.body.teamName) {
+            return res.status(400).json({message: "Team name is required"});
+        }
+
         const team = await Team.create(req.body);
         res.status(200).json(team);
+        
     }catch(error){
         console.error("Error creating team: ", error);
         res.status(500).json({message: "Internal server error"});
@@ -52,7 +60,7 @@ router.put("/:id", async(req,res) => {
     }
 });
 
-// delete a product
+// delete a team
 router.delete("/:id", async(req,res) => {
     try{
         const { id } = req.params;
@@ -67,4 +75,31 @@ router.delete("/:id", async(req,res) => {
         res.status(500).json({message:error.message});
     }
 });
+
+// 增加user到Team
+router.put("/addUser", async(req,res) => {
+    const { teamId, userId } = req.body;
+
+    const added = Team.findByIdAndDelete(
+        teamId,
+        {
+            $push: { users: userId },
+        },
+        { new: true }
+    )
+        .populate("users", "-password")
+            .populate("teamAdmin, -password");
+
+    if (!added) {
+        return res.status(404);
+        throw new Error("Team not found");
+    } else {
+        res.json(added);
+    }
+});
+
+router.put("/removeUser", async(req,res) => {
+    
+});
+
 module.exports = router;
