@@ -1,79 +1,76 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
 let Team = require('../schemas/team');
 let Message = require('../schemas/message');
 
 
 // create team
-// 辨識該user是否已經建立過 team or 參加 team
-router.post("/", async (req,res) => {
-    try{
-        if (!req.body.teamName) {
-            return res.status(400).json({message: "Team name is required"});
-        }
-
-        const team = await Team.create(req.body);
-        res.status(200).json(team);
-        
-    }catch(error){
-        console.error("Error creating team: ", error);
-        res.status(500).json({message: "Internal server error"});
-    }
+router.post("/add", async (req, res) => {
+  try {
+    const team = await Team.create(req.body);
+    res.status(200).json(team);
+  } catch (error) {
+    console.error("Error creating team: ", error);
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // get all team
-router.get("/", async(req,res) => {
-    try{
-        const teams = await Team.find({});
-        res.status(200).json(teams);
-    }catch (error){
-        res.status(500).json({message:error.message});
-    }
+router.get("/", async (req, res) => {
+  try {
+    const teams = await Team.find({});
+    res.status(200).json(teams);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // get team by id
-router.get("/:id", async(req,res) => {
-    try{
-        const { id } = req.params;
-        const team = await Team.findById(id);
-        res.status(200).json(team);
-    } catch (error){
-        res.status(500).json({message:error.message});
-    }
+router.get("/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const team = await Team.findById(_id);
+    res.status(200).json(team);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // update a team
-router.put("/:id", async(req,res) => {
-    try{
-        const { id } = req.params;
-        const team = await Team.findByIdAndUpdate(id, req.body);
+router.post("/update/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    console.log(req.body);
+    const team = await Team.findOneAndUpdate({ _id: _id }, req.body, {
+      upsert: true,
+    });
 
-        if(!team){
-            return res.status(404).json({message:"Team not found"});
-        }
-
-        const updatedTeam = await Team.findById(id);
-
-        res.status(200).json(updatedTeam);
-    }catch(error){
-        res.status(500).json({message:error.message});
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
     }
+
+    const updatedTeam = await Team.findById(_id);
+
+    res.status(200).json(updatedTeam);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
-// delete a team
-router.delete("/:id", async(req,res) => {
-    try{
-        const { id } = req.params;
-        const team = await Team.findByIdAndDelete(id);
+// delete a product
+router.delete("/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const team = await Team.findByIdAndDelete(_id);
 
-        if(!team){
-            res.status(404).json({message:"Team not found"});
-        }
-
-        res.status(200).json({ message: "Team deleted successfully"});
-    }catch(error){
-        res.status(500).json({message:error.message});
+    if (!team) {
+      res.status(404).json({ message: "Team not found" });
     }
+
+    res.status(200).json({ message: "Team deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // 增加user到Team

@@ -22,7 +22,11 @@ connection.once("open", () => {
 });
 const userRouter = require("./routes/user");
 const teamRouter = require("./routes/team");
+const formRouter = require("./routes/form");
+app.use("/form", formRouter);
 app.use("/user", userRouter);
+const contestRouter = require("./routes/contest");
+app.use("/contest", contestRouter);
 app.use("/team", teamRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
