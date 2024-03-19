@@ -23,6 +23,7 @@ const teamSchema = new Schema({
     lastMessage:{
         type:Schema.Types.ObjectId,
         ref:"Message",
+        default:null,
     },
 
     teamAdmin:{
@@ -30,8 +31,10 @@ const teamSchema = new Schema({
         ref:"User",
     },
 
-    introduction:String,
-    
+    introduction:{
+        type:String,
+        default:null,
+    }
 });
 
 const Team = mongoose.model("Team", teamSchema);
