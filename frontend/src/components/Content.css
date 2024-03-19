@@ -1,0 +1,8 @@
+.Content{
+    height: 860px;
+    margin-left: 55px;
+    margin-right: 55px;
+    margin-bottom: 67px;
+    display: flex;
+    justify-content: space-between;
+}

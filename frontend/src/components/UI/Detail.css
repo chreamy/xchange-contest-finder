@@ -1,0 +1,7 @@
+.Detail{
+    width: 30%;
+    background-color: white;
+    border-radius:50px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+}

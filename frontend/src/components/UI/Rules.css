@@ -1,0 +1,19 @@
+.Rules{
+    width: 68%;
+    background-color: white;
+    border-radius:50px 50px 50px 50px;
+}
+.title-Rules{
+    color: #000;
+    margin: 0 auto;
+    font-size: 3rem;
+    margin-top: 24px;
+    margin-left: 30px;
+}
+.content-Rules{
+    color: #000;
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
