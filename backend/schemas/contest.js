@@ -4,29 +4,29 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const contestSchema = new Schema({
-  name: { type: String, required: true },
-  date: { type: Date, required: true },
-  description: { type: String, required: true },
-  address: String,
-  coordinates: {
-    type: [Number],
-    validate: {
-      validator: function (coordinates) {
-        return coordinates.length === 2;
-      },
-      message:
-        "Coordinates must be an array of two numbers [longitude, latitude]",
-    },
-  },
-  media: [String], //array of media links
-  tags: [String], //major, school, and other tags to sort contests
+  _hashId: String,
+  title: String,
+  link: String,
+  startDate: Date,
+  endDate: Date,
+  organizer: String,
+  agency: String,
+  contactPhone: String,
+  contactEmail: String,
+  location: String,
+  tags: [String],
+  detail: String,
+  totalPrize: String,
+  maxPrize: String,
+  ageGroup: String,
+  nationality: String,
   created: { type: Date, default: Date.now, required: true },
   updated: { type: Date, default: Date.now, required: true },
   status: {
     type: String,
     required: true,
-    enum: ["pending", "approved", "rejected", "archived"],
-    default: "pending",
+    enum: ["visible", "hidden"],
+    default: "visible",
   },
 });
 
