@@ -110,7 +110,6 @@ router.route("/search").post(async (req, res) => {
       { $skip: start },
       { $limit: end - start },
     ]);
-    console.log(contests);
     res.json(contests);
   } catch (err) {
     res.status(500).json({ message: "Error fetching contests", error: err });
