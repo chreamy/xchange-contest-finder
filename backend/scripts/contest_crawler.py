@@ -116,6 +116,15 @@ def searchContest(driver,contestDataList,contestSum):
         except NoSuchElementException:
             pass
         
+        try:
+            bh_cover_image_element = driver.find_element(By.CSS_SELECTOR, ".bh-cover-image")
+            contestImageElement = bh_cover_image_element.find_element(By.CLASS_NAME, 'bh-image')
+            contestImageUrl = contestImageElement.get_attribute('src')
+            contestDataList[index]['coverImg'] = contestImageUrl
+            print(contestImageUrl)
+        except NoSuchElementException:
+            pass
+
         #scrape info section
         try:
             parentElement = driver.find_element(By.CLASS_NAME, "bh-info-block")

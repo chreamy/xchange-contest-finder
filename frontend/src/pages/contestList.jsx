@@ -33,11 +33,16 @@ class ContestList extends Component {
   componentDidMount() {
     this.fetchData();
   }
-
+  handleSearch = async (query) => {
+    const contests = (
+      await axios.post("http://localhost:3001/contest/search", { query })
+    ).data;
+    this.setState({ contests });
+  };
   render() {
     return (
       <>
-        <Nav />
+        <Nav searchCallback={this.handleSearch} />
         <GoogleLogin
           onSuccess={this.handleGoogleLoginSuccess}
           onError={this.handleGoogleLoginFailure}
@@ -46,9 +51,16 @@ class ContestList extends Component {
         <Filter />
         <div className={styles.list}>
           {this.state.contests &&
-            this.state.contests.map((contest) => (
-              <Contest title={contest.title} link={contest.link} />
-            ))}
+            this.state.contests.map((contest) => {
+              console.log(contest);
+              return (
+                <Contest
+                  title={contest.title}
+                  link={contest.link}
+                  coverImg={contest.coverImg}
+                />
+              );
+            })}
         </div>
         <Footer />
       </>

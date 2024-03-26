@@ -51,6 +51,72 @@ router.route("/update-by-json").get(async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+router.delete("/clear-all", async (req, res) => {
+  try {
+    Contest.deleteMany({}).then(() =>
+      res.status(200).json({ message: "All contests cleared" })
+    );
+  } catch (err) {
+    res.status(500).json({ message: "Error clearing contests", error: err });
+  }
+});
+
+router.route("/search").post(async (req, res) => {
+  try {
+    const start = req.body.start || 0;
+    const end = req.body.end || 20;
+    if (!req.body.query) {
+      res.status(400).json({ message: "Search query required" });
+      return;
+    }
+    const contests = await Contest.aggregate([
+      {
+        $search: {
+          compound: {
+            should: [
+              {
+                text: {
+                  query: req.body.query,
+                  path: "title",
+                  score: { boost: { value: 10 } },
+                },
+              },
+              {
+                text: {
+                  query: req.body.query,
+                  path: "organizer",
+                  score: { boost: { value: 4 } },
+                },
+              },
+              {
+                text: {
+                  query: req.body.query,
+                  path: "tags",
+                  score: { boost: { value: 7 } },
+                },
+              },
+              {
+                text: {
+                  query: req.body.query,
+                  path: "detail",
+                  score: { boost: { value: 1 } },
+                },
+              },
+            ],
+          },
+        },
+      },
+      { $skip: start },
+      { $limit: end - start },
+    ]);
+    console.log(contests);
+    res.json(contests);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching contests", error: err });
+  }
+});
+
 router.route("/:id").get(async (req, res) => {
   // get the contests by ID
 });

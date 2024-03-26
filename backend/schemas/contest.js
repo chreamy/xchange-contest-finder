@@ -15,6 +15,7 @@ const contestSchema = new Schema({
   contactEmail: String,
   location: String,
   tags: [String],
+  coverImg: String,
   detail: String,
   totalPrize: String,
   maxPrize: String,
