@@ -1,0 +1,77 @@
+.h2 {
+  color: #92aa83;
+  font-size: 28px;
+  letter-spacing: 4px;
+  padding: 0px 7rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: large;
+}
+
+.formItem {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.form label {
+  color: #92aa83;
+  font-weight: bold;
+  padding-right: 1rem;
+}
+.form input {
+  width: 70%;
+  padding: 0.3rem 0.3rem 0.3rem 0.5rem;
+  border: 2px solid #92aa83;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  color: black;
+}
+
+.form select {
+  width: 50%;
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  border: 2px solid #92aa83;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  color: #92aa83;
+}
+
+.form option {
+  color: #92aa83;
+  background-color: #f1f7ee;
+}
+
+.form button {
+  width: 50%;
+  color: white;
+  font-size: large;
+  letter-spacing: 2px;
+  background-color: #92aa83;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0rem;
+  margin-bottom: 1rem;
+}
+
+.googleLogin {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  width: 50%;
+  color: white;
+  font-size: large;
+  letter-spacing: 2px;
+  background-color: #707070;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 20px;
+}
