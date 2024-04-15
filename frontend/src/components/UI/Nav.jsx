@@ -1,20 +1,43 @@
+import { NavLink } from "react-router-dom";
+
 import styles from "./Nav.module.css";
 
 const Nav = ({ onShowSignUp, onShowLogin }) => {
   return (
-    <div className={styles.background}>
+    <nav className={styles.background}>
       <h2 id={styles.logo}>LOGO</h2>
-      <button className={styles.pageLink}>找比賽→</button>
-      <button className={styles.pageLink}>找隊伍→</button>
-      <button className={styles.pageLink}>找隊友→</button>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? `${styles.pageLink} ${styles.active}` : styles.pageLink
+        }
+        to="contest-list"
+      >
+        找比賽→
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? `${styles.pageLink} ${styles.active}` : styles.pageLink
+        }
+        to="team"
+      >
+        找隊伍→
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? `${styles.pageLink} ${styles.active}` : styles.pageLink
+        }
+        to="partner"
+      >
+        找隊友→
+      </NavLink>
       <div className={styles.space}></div>
       <button id={styles.signUp} onClick={onShowSignUp}>
         Sign Up
       </button>
       <button id={styles.logIn} onClick={onShowLogin}>
-        Log in
+        Login
       </button>
-    </div>
+    </nav>
   );
 };
 
