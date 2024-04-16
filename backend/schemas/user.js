@@ -2,9 +2,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  googleId: String,
+  googleId: {
+    type: String,
+    required: false,
+  },
   email: String,
   name: String,
+  username: {
+    type: String,
+    required: false,
+    minLength: 3,
+  },
+  password: {
+    type: String,
+    required: false,
+    minLength: 6,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

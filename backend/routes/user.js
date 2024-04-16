@@ -6,7 +6,6 @@ const client = new OAuth2Client(
   "436307408633-hnr8ld1jgqgmbcohbt068jc4hq34bcvb.apps.googleusercontent.com"
 );
 let User = require("../schemas/user");
-const User2 = require("../schemas/user2");
 const authMiddleware = require("../middleware/authMiddleware");
 router.get("/", authMiddleware, (req, res) => {
   res.status(200).json({ message: "User route" });
@@ -14,7 +13,7 @@ router.get("/", authMiddleware, (req, res) => {
 router.post("/register", async (req, res) => {
   const { name, email, username, password } = req.body;
   try {
-    const user = await User2.findOne({
+    const user = await User.findOne({
       email: email,
     });
     if (user) {
@@ -22,7 +21,7 @@ router.post("/register", async (req, res) => {
       return;
     } 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User2({
+    const newUser = new User({
       name,
       email,
       username,
@@ -39,7 +38,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User2
+    const user = await User
       .findOne({ email: email });
     if (!user) {
       res.status(400).json({ message: "User does not exist" });
@@ -85,18 +84,26 @@ router.post("/google-login", async (req, res) => {
       audience: process.env.CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    console.log(payload["sub"]);
-    const user = await User.findOne({ userId: payload["sub"] });
+
+    // find user with googleId or email
+    const user = await User.findOne({
+      $or: [
+        { googleId: payload["sub"] },
+        { email: payload["email"] },
+      ],
+    });
 
     if (user) {
       res.status(200).json({ message: "User already exists", user: user });
+      console.log(payload)
     } else {
       const newUser = new User({
         googleId: payload["sub"],
         email: payload["email"],
         name: payload["name"],
+        username: payload["email"].split("@")[0]
       });
-
+      console.log(payload)
       await newUser.save();
       res
         .status(201)
