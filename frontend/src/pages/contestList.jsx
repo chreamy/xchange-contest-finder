@@ -55,7 +55,7 @@ class ContestList extends Component {
   }
 
   fetchData = async () => {
-    const contests = [];
+    let contests = [];
 
     await axios
       .post("http://localhost:3001/contest/list", {})
