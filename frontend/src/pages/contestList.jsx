@@ -10,7 +10,7 @@ class ContestList extends Component {
     super(props);
     this.state = {
       contests: [
-        {
+        /*{
           name: "比賽名稱",
           date: "2024-01-31",
           address: "???",
@@ -49,7 +49,7 @@ class ContestList extends Component {
         {
           title: "瓩設計獎kW Design Award─第24屆創意競賽",
           link: "https://bhuntr.com/tw/competitions/7e9r8q4aydg5vlyoum",
-        },
+        },*/
       ],
     };
   }
