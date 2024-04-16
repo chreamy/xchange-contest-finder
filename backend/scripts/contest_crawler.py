@@ -7,6 +7,7 @@ import json
 import threading
 import time
 from fake_useragent import UserAgent
+from categorize import add_categories
 
 # prevent fields that don't exist from causing error
 def safe_find_element_text(parent, by, value):
@@ -34,6 +35,7 @@ def crawlContestTitleLink(driver):
         except:
             print('No more button')
             break
+            
 
     # 取得每個比賽的div block
     contests = driver.find_elements(By.CLASS_NAME, "bh-card-item")
@@ -146,7 +148,7 @@ def searchContest(driver,contestDataList,contestSum):
         
         print('Scraped',contestDataList[index]['title'])
         index += 1
-        saveContestDetail(contestDataList)
+    saveContestDetail(contestDataList)
 
 # 將contestDataList存成csv和json檔
 def saveContestList(contestDataList):
@@ -163,6 +165,7 @@ def saveContestDetail(contestDataList):
     # 將contestDataList存成csv和json檔
     df = pd.DataFrame(contestDataList)
     df = df.where(pd.notnull(df), None)
+    df = add_categories(df)
     df.to_csv('./contest_detail.csv', index=False)
     data = df.to_dict(orient='records')
     with open('./contest_detail.json', 'w', encoding='utf-8') as file:
