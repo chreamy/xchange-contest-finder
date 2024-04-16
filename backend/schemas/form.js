@@ -11,6 +11,14 @@ const form  = new Schema({
     type: String,
     required: true
   },
+  identity: {
+    type: String,
+    required: true,
+  },
+  birthday: {
+    type: Date,
+    default: Date.now(),
+  },
   // Soft skills, list of skills
   softSkills: {
     type: [String],
