@@ -70,17 +70,17 @@ class ContestList extends Component {
   }
 
   handleSearch = async (query) => {
-    const contests = (
-      await axios.post("http://localhost:3001/contest/search", { query })
-    ).data;
-    this.setState({ contests });
+    let res = await axios.post("http://localhost:3001/contest/search", {
+      query,
+    });
+    this.setState({ contests: res.data });
   };
 
   render() {
     return (
       <>
         <div className={styles.searchBlock}>
-          <SearchBar searchHandler={this.handleSearch} />
+          <SearchBar handleSearch={this.handleSearch} />
           <Filter />
         </div>
         <div className={styles.list}>
