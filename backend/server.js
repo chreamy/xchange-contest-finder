@@ -3,9 +3,21 @@ const cors = require("cors");
 require("dotenv/config");
 
 const app = express();
+
 const mongoose = require("mongoose");
 const port = 3001;
 const crawlerRoutes = require("./routes/crawler");
+
+const http = require("http");
+const socket = require("./service/socket");
+const server = http.createServer(app);
+const io = socket(server);
+
+// 全域註冊
+app.set('socketio',io);
+
+
+
 app.use(express.json());
 app.use(
   cors({
@@ -30,10 +42,16 @@ app.use("/contest", contestRouter);
 
 app.use("/team", teamRouter);
 
-app.get("/", (req, res) => {
+app.use("/crawler", crawlerRoutes);
+
+app.get('/', (req, res) => {
   res.send("Hello World!");
 });
-app.use("/crawler", crawlerRoutes);
-app.listen(port, () => {
-  console.log(`Backend server is listening at http://localhost:${port}`);
+
+// app.listen(port, () => {
+//   console.log(`Backend server is listening at http://localhost:${port}`);
+// });
+
+server.listen(port, () => {
+  console.log(`Server and Socket.IO are running on http://localhost:${port}`);
 });
