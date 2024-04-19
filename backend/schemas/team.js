@@ -20,10 +20,19 @@ const teamSchema = new Schema({
         ref:"User",
     }],
 
-    lastMessage:{
-        type:Schema.Types.ObjectId,
-        ref:"Message",
-        default:null,
+    messages:{
+        content:{
+            type:String,
+            trim: true
+        },
+        sender:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        },
+        createdAt:{
+            type: Date,
+            default: Date.now(),
+        }
     },
 
     teamAdmin:{

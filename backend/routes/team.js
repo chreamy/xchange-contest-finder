@@ -1,8 +1,6 @@
 const router = require("express").Router();
 
 let Team = require('../schemas/team');
-let Message = require('../schemas/message');
-let User = require('../schemas/user');
 
 
 // create team
@@ -139,17 +137,15 @@ router.post("/sendMessage", async (req, res) => {
     console.log(req.body);
 
     try {
-      // 將message存入Message Collection
-      var newMessage = await Message.create({ sender:sender, content:content, teamId:teamId });
-
-      newMessage = await newMessage.populate("sender","name email");
-  
       // 將message存入Team lastMessage
       await Team.findByIdAndUpdate(teamId, {
-        lastMessage: newMessage,
+        messages:{
+          content:content,
+          sender:sender
+        }
       });
 
-      res.status(200).json(newMessage);
+      res.status(200).json(req.body);
 
     } catch(error) {
       res.status(400).json({ message: error.message });
