@@ -1,12 +1,10 @@
 import React, { Component, useState } from "react";
-import Nav from "../components/UI/Nav";
-import Footer from "../components/UI/Footer";
 import Banner from "../components/Banner";
 import Ticket from "../components/Ticket";
 import Content from "../components/Content";
 import "./contestDetail.css";
 
-//create-react-app 
+//create-react-app
 //class ContestList extends Component {
 //   constructor(props) {
 //     super(props);
@@ -21,13 +19,11 @@ import "./contestDetail.css";
 let ContestDetail = () => {
   return (
     <div className="contestDetail">
-        <Nav/>
-        <Banner/>
-        <Ticket/>
-        <Content/>
-        <Footer/>
+      <Banner />
+      <Ticket />
+      <Content />
     </div>
   );
-}
+};
 
 export default ContestDetail;
