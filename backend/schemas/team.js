@@ -20,7 +20,7 @@ const teamSchema = new Schema({
         ref:"User",
     }],
 
-    messages:{
+    notice:[{
         content:{
             type:String,
             trim: true
@@ -32,8 +32,13 @@ const teamSchema = new Schema({
         createdAt:{
             type: Date,
             default: Date.now(),
+        },
+        // 公告的權限，true 為對外公開，false 為僅限成員可見
+        access:{
+            type:Boolean,
+            default:true,
         }
-    },
+    }],
 
     teamAdmin:{
         type:Schema.Types.ObjectId,
