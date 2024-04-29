@@ -131,19 +131,25 @@ router.patch("/removeUser", async(req,res) => {
 
 
 // create message and store in the Message & Team Collection
-router.post("/sendMessage", async (req, res) => {
-    const { teamId, content,sender } = req.body;
+router.post("/pushNotice", async (req, res) => {
+    const { senderId, content, teamId,access } = req.body;
     
     console.log(req.body);
 
     try {
       // 將message存入Team lastMessage
-      await Team.findByIdAndUpdate(teamId, {
-        messages:{
-          content:content,
-          sender:sender
-        }
-      });
+      await Team.findByIdAndUpdate(teamId, 
+        {
+          $push : {
+            notice:{
+              content:content,
+              sender:senderId,
+              access:access
+            }
+          },
+        },
+        { new: true}       
+      );
 
       res.status(200).json(req.body);
 
@@ -153,5 +159,17 @@ router.post("/sendMessage", async (req, res) => {
 
 });
 
+router.get("/getNotice/:teamId", async (req, res) => {
+
+  const { teamId } = req.params;
+  // get the notice from the team
+  try {
+    const team = await Team.findById(teamId);
+    console.log(team.notice);
+    res.status(200).json(team.notice);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;
