@@ -6,6 +6,9 @@ const client = new OAuth2Client(
   "436307408633-hnr8ld1jgqgmbcohbt068jc4hq34bcvb.apps.googleusercontent.com"
 );
 let User = require("../schemas/user");
+let Team = require("../schemas/team");
+let Contest = require("../schemas/contest");
+let Form = require("../schemas/form");
 const authMiddleware = require("../middleware/authMiddleware");
 router.get("/", authMiddleware, (req, res) => {
   res.status(200).json({ message: "User route" });
@@ -75,6 +78,41 @@ router.delete("/:username", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+router.get("/profile/:username", authMiddleware, async (req, res) => {
+  const username = req.params.username;
+  try {
+    const user = await User
+      .findOne({ username: username });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    // get the form of the user
+    const form = await Form.findOne({ user: user.userId });
+    
+    // There's a users array in the team schema, so we need to find all teams where the user is a member
+    const teams = await Team.find({ users: user });
+    
+    // loop through teams and get the contestId of each team
+    const contestIds = teams.map((team) => team.contestId);
+
+    // get all contests where the user is a member of a team
+    const contests = [];
+    for (let i = 0; i < contestIds.length; i++) {
+      const contest = await Contest.findOne({ _hashId: contestIds[i] });
+      contests.push(contest);
+    }
+
+    res.status(200).json({ user: user, form: form, teams: teams, contests: contests });
+
+  } catch (error) {
+    console.error("Error getting user profile: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 router.post("/google-login", async (req, res) => {
   const { token } = req.body;
