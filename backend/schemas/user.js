@@ -18,6 +18,11 @@ const userSchema = new Schema({
     required: false,
     minLength: 6,
   },
+  favorites: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Contest",
+    default: [],
+  },
 });
 
 const User = mongoose.model("User", userSchema);
