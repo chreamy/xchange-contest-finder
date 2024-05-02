@@ -1,5 +1,7 @@
 const { Server } = require("socket.io");
 
+let chatRoomSchema = require('../schemas/chatRoom');
+
 module.exports = (server) => {
     const io = new Server(server, {
         cors:{
@@ -7,19 +9,24 @@ module.exports = (server) => {
         }
     });
     
-    // 個人聊天命名空間
-    const singleChat = io.of('/single-chat');
-    // 群組聊天命名空間
-    const group = io.of('/group');
+    // 1-on-1 chat
+    io.on('connection', async(socket) => {
+        console.log('connected to chatRoom');
 
-    singleChat.on('connection', async(socket) => {
-        console.log('connected to single-chat');
-        
-        // 使用者發送加入聊天室的事件，才會將使用者加入聊天室
-        socket.on('personalMessage', (data) => {
-            // 前端傳送 data {receiver:userId, message:""}
+        socket.on('join', (chatRoom) => {
+            // chatRoomId 為當前user與對方user的聊天室Id
+            socket.join(chatRoom);
+        })
+
+        socket.on('sendMessage', async (data) => {
+            // 前端傳送 data {chatRoomId:chatRoomId, message:""}
             console.log(data);
-            socket.to(data.receiver).emit('receiveMessage', { from:socket.id, message:data.message })
+            
+            socket.to(chatRoomId).emit('receiveMessage', { message:data.message });
+            // save message to chatRoom
+            // 這裡要寫入資料庫
+            await chatRoomSchema.findByIdAndUpdate(data.chatRoomId,{ $push: { message: {senderId:data.senderId,content:data.message,createdAt:new Date()}}}, { new: true });
+
         });
 
         socket.on('disconnect', () => {
@@ -27,30 +34,6 @@ module.exports = (server) => {
         });
     });
 
-    group.on('connection', async(socket) => {
-        console.log('connected to group chat');
-
-        // 加入群組
-        socket.on('joinGroup', (data) => {
-            socket.join(data.groupId);
-            console.log(`${socket.id} joined group ${data.groupId}`);
-        });
-
-        // 在群組傳送訊息
-        socket.on('groupMessage',(data) => {
-            group.to(data.groupId).emit('receiveGroupMessage', {from: socket.id, message:data.message});
-        });
-
-        // 離開 Team 時自動呼叫
-        socket.on('leaveGroup', (data) => {
-            socket.leave(data.groupId);
-            console.log(`${socket.id} left group ${data.groupId}`);
-        });
-
-        socket.on('disconnect', () => {
-            console.log('User disconnected from group chat');
-        });
-    })
 
     return io;
 };
