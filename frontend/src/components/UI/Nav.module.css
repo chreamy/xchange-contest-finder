@@ -27,25 +27,31 @@ nav * {
 }
 
 .active {
-  color: #707070;
+  color: #17280c;
 }
 
 .pageLink:hover,
-#signUp:hover {
-  color: #707070;
+#signUp:hover,
+#logOut:hover {
+  color: #17280c;
 }
 
-#signUp {
+#signUp,
+#logOut {
   border: none;
   background-color: #92aa83;
-  font-size: 16px;
+  font-size: 18px;
   flex-grow: 1;
   transition: ease-in 0.2s;
 }
 
+#logOut {
+  text-align: end;
+}
+
 #logIn {
   background-color: rgba(220, 220, 220, 0.5);
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   border-radius: 10px 10px 10px 10px;
   padding: 0.8rem 0rem;
@@ -55,7 +61,18 @@ nav * {
 }
 
 #logIn:hover {
-  background-color: #707070;
+  background-color: #17280c;
+}
+
+#user {
+  background-color: #92aa83;
+  font-size: 24px;
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0.8rem 0rem;
+  margin-right: 5%;
+  flex-grow: 1;
+  transition: ease-in 0.2s;
 }
 
 .space {

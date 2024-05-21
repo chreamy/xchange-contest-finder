@@ -1,0 +1,35 @@
+.navCol {
+  padding: 0%;
+  background-color: #92aa83;
+  border-radius: 15px 0px 0px 15px;
+}
+
+.subNav {
+  background-color: #92aa83;
+  text-align: center;
+  border-radius: 15px 0px 0px 15px;
+  padding: 1rem 0rem;
+}
+
+.link {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 1rem 0rem;
+  transition: 0.2s ease-in;
+}
+
+.link:hover {
+  background-color: white;
+  color: #92aa83;
+}
+
+.link:focus,
+.active {
+  color: #17280c;
+}
+
+.content {
+  background-color: white;
+  border-radius: 0px 15px 15px 0px;
+}

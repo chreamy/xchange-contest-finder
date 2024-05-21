@@ -1,15 +1,14 @@
 import styles from "./Filter.module.css";
 
-const Filter = () => {
+const Filter = ({ options }) => {
   return (
     <div className={styles.container}>
-      <button>最新</button>
-      <p>|</p>
-      <button>熱門</button>
-      <p>|</p>
-      <button>地區</button>
-      <p>|</p>
-      <button>截止</button>
+      {options.map((o, i) => (
+        <>
+          <button>{o}</button>
+          {i === options.length - 1 ? <></> : <p>|</p>}
+        </>
+      ))}
     </div>
   );
 };
