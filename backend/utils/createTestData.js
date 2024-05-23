@@ -57,7 +57,7 @@ db.once("open", async () => {
       teamsData.push(savedTeam);
     }
 
-    fs.writeFileSync(path.resolve(__dirname, '../teamsData.json'), JSON.stringify(teamsData, null, 2));
+    fs.writeFileSync(path.resolve(__dirname, '../../teamsData.json'), JSON.stringify(teamsData, null, 2));
 
     console.log("Test data created successfully");
   } catch (error) {
