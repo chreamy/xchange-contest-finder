@@ -5,24 +5,10 @@
 }
 
 .list {
-  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 4rem;
   background-color: #f1f7ee;
-}
-
-.linkItem {
-  color: #707070;
-}
-
-.linkItem:hover {
-  color: #92aa83;
-}
-
-.linkItem:active {
-  color: white;
-  background-color: #92aa83;
+  padding: 2rem 0rem;
 }

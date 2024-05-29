@@ -1,0 +1,89 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.general {
+  display: flex;
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.general label {
+  width: 20%;
+  padding: 0.5rem 2rem;
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+  border-right: 1px solid black;
+}
+
+.general input {
+  width: 80%;
+  padding-left: 0.5rem;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.selectable {
+  display: flex;
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.selectable label {
+  width: 20%;
+  padding: 0.5rem 2rem;
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+  border-right: 1px solid black;
+}
+
+.selectable input {
+  width: 80%;
+  padding: 0px 20px;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.selectable select {
+  width: 80%;
+  padding: 0px 20px;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.textarea {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.textarea label {
+  padding: 0.5rem 2rem;
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.textarea input {
+  height: 20vh;
+  padding-left: 0.5rem;
+  border: none;
+  border-radius: 0px 0px 10px 10px;
+}

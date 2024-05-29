@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 import styles from "./Nav.module.css";
+import { UserOutlined } from "@ant-design/icons";
 
 const Nav = ({ onShowSignUp, onShowLogin }) => {
   return (
@@ -31,11 +32,11 @@ const Nav = ({ onShowSignUp, onShowLogin }) => {
         找隊友→
       </NavLink>
       <div className={styles.space}></div>
-      <button id={styles.signUp} onClick={onShowSignUp}>
-        Sign Up
+      <button id={styles.logOut} onClick={onShowSignUp}>
+        Log Out
       </button>
-      <button id={styles.logIn} onClick={onShowLogin}>
-        Log In
+      <button id={styles.user} onClick={onShowLogin}>
+        <UserOutlined />
       </button>
     </nav>
   );

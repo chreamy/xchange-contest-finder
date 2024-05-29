@@ -11,6 +11,7 @@
 .container button,
 .container p {
   color: black;
+  margin-bottom: 0px;
 }
 
 .container button {

@@ -1,16 +1,18 @@
 import React, { Component, useState } from "react";
+import Pagination from "react-bootstrap/Pagination";
 import Filter from "../components/Filter";
 import Contest from "../components/Contest";
 import axios from "axios";
 import styles from "./contestList.module.css";
 import SearchBar from "../components/UI/SearchBar";
 
+const options = ["最新", "熱門", "地區", "截止"];
 class ContestList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       contests: [
-        /*{
+        {
           name: "比賽名稱",
           date: "2024-01-31",
           address: "???",
@@ -49,7 +51,7 @@ class ContestList extends Component {
         {
           title: "瓩設計獎kW Design Award─第24屆創意競賽",
           link: "https://bhuntr.com/tw/competitions/7e9r8q4aydg5vlyoum",
-        },*/
+        },
       ],
     };
   }
@@ -81,7 +83,7 @@ class ContestList extends Component {
       <>
         <div className={styles.searchBlock}>
           <SearchBar handleSearch={this.handleSearch} />
-          <Filter />
+          <Filter options={options} />
         </div>
         <div className={styles.list}>
           {this.state.contests &&
@@ -95,6 +97,34 @@ class ContestList extends Component {
                 />
               );
             })}
+          <Pagination style={{ position: "absolute", bottom: "1rem" }}>
+            <Pagination.First linkClassName={styles.linkItem} />
+            <Pagination.Prev linkClassName={styles.linkItem} />
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {1}
+            </Pagination.Item>
+            <Pagination.Ellipsis linkClassName={styles.linkItem} />
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {10}
+            </Pagination.Item>
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {11}
+            </Pagination.Item>
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {12}
+            </Pagination.Item>
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {13}
+            </Pagination.Item>
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {14}
+            </Pagination.Item>
+            <Pagination.Item linkClassName={styles.linkItem}>
+              {15}
+            </Pagination.Item>
+            <Pagination.Next linkClassName={styles.linkItem} />
+            <Pagination.Last linkClassName={styles.linkItem} />
+          </Pagination>
         </div>
       </>
     );
