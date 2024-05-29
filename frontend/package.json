@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "homepage": "https://xchange-contest-finder.netlify.app/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
