@@ -1,8 +1,6 @@
 const router = require("express").Router();
 
 let Team = require('../schemas/team');
-let Message = require('../schemas/message');
-let User = require('../schemas/user');
 
 
 // create team
@@ -133,23 +131,27 @@ router.patch("/removeUser", async(req,res) => {
 
 
 // create message and store in the Message & Team Collection
-router.post("/sendMessage", async (req, res) => {
-    const { teamId, content,sender } = req.body;
+router.post("/pushNotice", async (req, res) => {
+    const { senderId, content, teamId,access } = req.body;
     
     console.log(req.body);
 
     try {
-      // 將message存入Message Collection
-      var newMessage = await Message.create({ sender:sender, content:content, teamId:teamId });
-
-      newMessage = await newMessage.populate("sender","name email");
-  
       // 將message存入Team lastMessage
-      await Team.findByIdAndUpdate(teamId, {
-        lastMessage: newMessage,
-      });
+      await Team.findByIdAndUpdate(teamId, 
+        {
+          $push : {
+            notice:{
+              content:content,
+              sender:senderId,
+              access:access
+            }
+          },
+        },
+        { new: true}       
+      );
 
-      res.status(200).json(newMessage);
+      res.status(200).json(req.body);
 
     } catch(error) {
       res.status(400).json({ message: error.message });
@@ -157,5 +159,17 @@ router.post("/sendMessage", async (req, res) => {
 
 });
 
+router.get("/getNotice/:teamId", async (req, res) => {
+
+  const { teamId } = req.params;
+  // get the notice from the team
+  try {
+    const team = await Team.findById(teamId);
+    console.log(team.notice);
+    res.status(200).json(team.notice);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;

@@ -23,6 +23,10 @@ const userSchema = new Schema({
     ref: "Contest",
     default: [],
   },
+  chatUsers:[{
+    type:Schema.Types.ObjectId,
+    ref:"User"
+  }]
 });
 
 const User = mongoose.model("User", userSchema);

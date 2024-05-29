@@ -1,0 +1,109 @@
+[
+  {
+    "name": "O'Conner Inc",
+    "contestId": "660268cb55d9b7a4ecf37ae7",
+    "users": [
+      "661dd3438016679bf6226417"
+    ],
+    "notice": [
+      {
+        "content": "Demulceo capitulus curiositas coniuratio cavus quae quibusdam crastinus articulus.",
+        "sender": "661dd3438016679bf6226417",
+        "createdAt": "2024-04-01T23:25:13.937Z",
+        "access": false,
+        "_id": "664f3dbddb46c21a731b302a"
+      }
+    ],
+    "teamAdmin": "661dd3438016679bf6226417",
+    "introduction": "Dapifer acervus deorsum aro decretum rem consuasor strues approbo cicuta. Asporto bellum certe venia crapula desparatus debilito altus. Dolores aegrotatio ubi cervus crux tenuis pauci sapiente.",
+    "_id": "664f3dbddb46c21a731b3029",
+    "__v": 0
+  },
+  {
+    "name": "King, Wintheiser and Sanford",
+    "contestId": "660268b855d9b7a4ecf37865",
+    "users": [
+      "66310f80642b2fd53c79f2cb",
+      "65d75fa9d3dff890dee6a372",
+      "66058bccef7c8f221c135ea3",
+      "65d760a1d3dff890dee6a375",
+      "66058bc3ef7c8f221c135ea0"
+    ],
+    "notice": [
+      {
+        "content": "Supellex absens verus corona demens cur suppono bestia.",
+        "sender": "65d75fa9d3dff890dee6a372",
+        "createdAt": "2024-04-05T19:18:11.953Z",
+        "access": false,
+        "_id": "664f3dbddb46c21a731b302d"
+      }
+    ],
+    "teamAdmin": "66058bc3ef7c8f221c135ea0",
+    "introduction": "Cervus templum adinventitias iure canis vehemens alienus mollitia deripio. Vereor accusantium appello convoco tandem vinculum appello cumque consuasor sursum. Ventito curvo tumultus totam verbum.",
+    "_id": "664f3dbddb46c21a731b302c",
+    "__v": 0
+  },
+  {
+    "name": "Bogan and Sons",
+    "contestId": "660268bf55d9b7a4ecf37952",
+    "users": [
+      "65d75fa9d3dff890dee6a372"
+    ],
+    "notice": [
+      {
+        "content": "Abbas spiritus alioqui spero congregatio cinis ullam nam.",
+        "sender": "65d75fa9d3dff890dee6a372",
+        "createdAt": "2024-01-30T23:11:39.550Z",
+        "access": false,
+        "_id": "664f3dbddb46c21a731b3030"
+      }
+    ],
+    "teamAdmin": "65d75fa9d3dff890dee6a372",
+    "introduction": "Correptius benevolentia capio cupiditas amiculum voco arto absque. Sordeo blanditiis voluptates apto tristis abbas asperiores caries id. Delibero depulso decretum depereo alo canonicus cunctatio condico supplanto ventito.",
+    "_id": "664f3dbddb46c21a731b302f",
+    "__v": 0
+  },
+  {
+    "name": "Schaden, Anderson and Corwin",
+    "contestId": "660268bf55d9b7a4ecf3794c",
+    "users": [
+      "66058bc3ef7c8f221c135ea0",
+      "66310f80642b2fd53c79f2cb"
+    ],
+    "notice": [
+      {
+        "content": "Ante talus cado adinventitias voluptatem ascisco.",
+        "sender": "66058bc3ef7c8f221c135ea0",
+        "createdAt": "2024-03-08T15:25:29.630Z",
+        "access": true,
+        "_id": "664f3dbddb46c21a731b3033"
+      }
+    ],
+    "teamAdmin": "66058bc3ef7c8f221c135ea0",
+    "introduction": "Absconditus allatus vinitor videlicet alo. Auctus adipisci confido uxor. Bardus uredo cernuus vesper.",
+    "_id": "664f3dbddb46c21a731b3032",
+    "__v": 0
+  },
+  {
+    "name": "Farrell - Becker",
+    "contestId": "660268a855d9b7a4ecf37643",
+    "users": [
+      "66310f80642b2fd53c79f2cb",
+      "661dd3438016679bf6226417",
+      "66058e560cbf7031f788d4a4"
+    ],
+    "notice": [
+      {
+        "content": "Tabgo demitto quos ater.",
+        "sender": "66058e560cbf7031f788d4a4",
+        "createdAt": "2023-12-23T22:38:58.283Z",
+        "access": true,
+        "_id": "664f3dbedb46c21a731b3036"
+      }
+    ],
+    "teamAdmin": "661dd3438016679bf6226417",
+    "introduction": "Consequuntur fugiat voluptatum eos. Carpo vir viduo deorsum sperno. Cenaculum tergeo suadeo patior ambitus calculus aeternus cresco vestrum.",
+    "_id": "664f3dbedb46c21a731b3035",
+    "__v": 0
+  }
+]

@@ -11,7 +11,8 @@ const teamSchema = new Schema({
     },
 
     contestId:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:"Contest",
         required:true,
     },
 
@@ -20,11 +21,25 @@ const teamSchema = new Schema({
         ref:"User",
     }],
 
-    lastMessage:{
-        type:Schema.Types.ObjectId,
-        ref:"Message",
-        default:null,
-    },
+    notice:[{
+        content:{
+            type:String,
+            trim: true
+        },
+        sender:{
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        },
+        createdAt:{
+            type: Date,
+            default: Date.now(),
+        },
+        // 公告的權限，true 為對外公開，false 為僅限成員可見
+        access:{
+            type:Boolean,
+            default:true,
+        }
+    }],
 
     teamAdmin:{
         type:Schema.Types.ObjectId,
