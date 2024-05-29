@@ -196,4 +196,29 @@ router.post("/remove-favorite", async (req, res) => {
   }
 });
 
+
+// filter users with similar contest interests using competition type
+router.get("/filter", authMiddleware, async (req, res) => {
+  const { competitionType } = req.query;
+  try {
+    if (!competitionType) {
+      res.status(400).json({ message: "Competition type is required" });
+      return;
+    }
+
+    const users = await Form.find({ competitionType: competitionType });
+  
+    if (!users) {
+      res.status(404).json({ message: "No users found" });
+      return;
+    }
+
+    res.status(200).json({ users: users });
+
+  } catch (error) {
+    console.error("Error filtering users: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;
