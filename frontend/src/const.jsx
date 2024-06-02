@@ -1,0 +1,1 @@
+export const HOST = "https://xchange-contest-finder.onrender.com"
