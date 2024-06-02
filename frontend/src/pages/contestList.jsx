@@ -1,10 +1,11 @@
-import React, { Component, useState } from "react";
-import Pagination from "react-bootstrap/Pagination";
-import Filter from "../components/Filter";
-import Contest from "../components/Contest";
 import axios from "axios";
-import styles from "./contestList.module.css";
+import React, { Component } from "react";
+import Pagination from "react-bootstrap/Pagination";
+import Contest from "../components/Contest";
+import Filter from "../components/Filter";
 import SearchBar from "../components/UI/SearchBar";
+import { HOST } from "../const";
+import styles from "./contestList.module.css";
 
 const options = ["最新", "熱門", "地區", "截止"];
 class ContestList extends Component {
@@ -60,7 +61,7 @@ class ContestList extends Component {
     let contests = [];
 
     await axios
-      .post("http://localhost:3001/contest/list", {})
+      .post(`${HOST}/contest/list`, {})
       .then((res) => {
         contests = res.data;
         this.setState({ contests });
@@ -72,7 +73,7 @@ class ContestList extends Component {
   }
 
   handleSearch = async (query) => {
-    let res = await axios.post("http://localhost:3001/contest/search", {
+    let res = await axios.post(`${HOST}/contest/search`, {
       query,
     });
     this.setState({ contests: res.data });

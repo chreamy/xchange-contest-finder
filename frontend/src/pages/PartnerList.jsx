@@ -1,10 +1,11 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 
-import styles from "./partnerList.module.css";
 import Filter from "../components/Filter";
-import SearchBar from "../components/UI/SearchBar";
 import Partner from "../components/Partner";
+import SearchBar from "../components/UI/SearchBar";
+import { HOST } from "../const";
+import styles from "./partnerList.module.css";
 
 export const PartnerList = () => {
   const [partner, setPartner] = useState([
@@ -55,7 +56,7 @@ export const PartnerList = () => {
   const options = ["收藏相同", "相似能力", "地區"];
 
   const handleSearch = async (query) => {
-    let res = await axios.post("http://localhost:3001/contest/search", {
+    let res = await axios.post(`${HOST}/contest/search`, {
       query,
     });
     setPartner({ partner: res.data });

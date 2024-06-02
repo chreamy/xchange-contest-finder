@@ -3,12 +3,13 @@ import axios from "axios";
 
 import Modal from "./UI/Modal";
 
+import { HOST } from "../const";
 import styles from "./LoginForm.module.css";
 
 const LoginForm = ({ onClose }) => {
   const handleGoogleLoginSuccess = (res) => {
     console.log("Login Success:", res.credential);
-    axios.post("http://localhost:3001/user/google-login", {
+    axios.post(`${HOST}/user/google-login`, {
       token: res.credential,
       test: "aaa",
     });
