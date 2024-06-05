@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import TeamFilter from "./components/TeamFilter";
-import Team from "./components/Team";
+import TeamFilter from "../components/TeamFilter";
+import Team from "../components/Team";
 import styles from "./findTeam.module.css";
 
   class FindTeam extends Component {
