@@ -1,6 +1,10 @@
 import './Ticket.css';
 import contest_detail_test from '../components/UI/contest_detail_test.json';
 import {Button} from 'react-bootstrap';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox'; 
+import Favorite from '@mui/icons-material/Favorite'; 
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder'; 
 
 function Ticket(){
     return(
@@ -18,7 +22,13 @@ function Ticket(){
                     <Button href="#" size="lg" className="custom-bg-color">找隊友</Button>{' '}
                 </div>
             </div>
-            <div className='ticket-end'></div>
+            <div className='ticket-end'>
+            <FormControlLabel 
+                    control={<Checkbox icon={<FavoriteBorder fontSize="large"/>} 
+                        checkedIcon={<Favorite fontSize="large"/>} 
+                name="checkedH" />} 
+        /> 
+            </div>
         </div>
     )
 }
