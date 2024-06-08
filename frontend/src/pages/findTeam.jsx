@@ -16,7 +16,7 @@ import styles from "./findTeam.module.css";
           },
           {
             "name": "O'Conner Inc",
-            "contest": "66026",
+            "contest": "66",
             "users": "1/5",
             "description":"jfioihugh",
           },

@@ -1,0 +1,42 @@
+.Rules{
+    width: 68%;
+    flex-direction: column;
+}
+.Rules-post{
+    background-color: white;
+    border-radius:0px 0px 50px 50px;
+    height: 92.4%;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+.post{
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #000;
+}
+.persontime{
+    display: flex;
+    justify-content: space-between;
+}
+.poster{
+    font-size: 40px;
+}
+.Rules-button{
+    background-color: #F1F7EE;
+}
+.custom-notice {
+    background-color: white!important;
+    border-color: white!important;
+    color:  #B0BEA9!important;
+    font-size: 2rem!important;
+    border-radius:20px 20px 0px 0px !important;
+}
+.custom-unnotice {
+    background-color: #B0BEA9!important;
+    border-color: #B0BEA9!important;
+    font-size: 2rem!important;
+    border-radius:20px 20px 0px 0px !important;
+}

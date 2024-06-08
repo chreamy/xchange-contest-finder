@@ -20,8 +20,7 @@ p{
     width: 40%;
 }
 .ticket-name{
-    color: #000;
-    font-size: 3rem;
+    font-size: 50px;
     margin: 0 auto;
     margin-top: 32px;
     margin-bottom: 89px;
@@ -29,17 +28,22 @@ p{
 .ticket-end{
     width: 12%;
     border-left: 1px dashed #B0BEA9;
+    text-align: center;
 }
 .ticket-detail{
-    color: #000;
     margin: 0 auto;
     margin-bottom: 14px;
     font-size: 30px;
 }
-.d-grid switchButton{
-    margin-top: 50px;
+.switchButton{
+    margin-top: 2.5rem;
 }
 .custom-bg-color {
-    background-color: #B0BEA9!important;
+    background-color: #B0BEA9 !important;
     border-color: #B0BEA9!important;
+    font-size: 1.5rem!important;
+}
+.heart{
+    font-size: 6rem!important;
+    color: red;
 }

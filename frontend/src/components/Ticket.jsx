@@ -19,14 +19,15 @@ function Ticket(){
                 <p className='ticket-detail'>最高獎金:</p>
                 <div className='switchButton'>
                     <Button href="#" size="lg" className="custom-bg-color">前往比賽網站</Button>{' '}
+                    <Button href="#" size="lg" className="custom-bg-color">前往隊伍</Button>{' '}
                     <Button href="#" size="lg" className="custom-bg-color">找隊友</Button>{' '}
                 </div>
             </div>
             <div className='ticket-end'>
             <FormControlLabel 
-                    control={<Checkbox icon={<FavoriteBorder fontSize="large"/>} 
-                        checkedIcon={<Favorite fontSize="large"/>} 
-                name="checkedH" />} 
+                    control={<Checkbox icon={<FavoriteBorder className="heart"/>} 
+                        checkedIcon={<Favorite className="heart"/>} 
+                    name="checkedH" />} 
         /> 
             </div>
         </div>
