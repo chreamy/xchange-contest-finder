@@ -199,14 +199,11 @@ router.post("/remove-favorite", async (req, res) => {
 
 // filter users with similar contest interests using competition type
 router.get("/filter", authMiddleware, async (req, res) => {
+
   const { competitionType } = req.query;
   try {
-    if (!competitionType) {
-      res.status(400).json({ message: "Competition type is required" });
-      return;
-    }
 
-    const users = await Form.find({ competitionType: competitionType });
+    const users = await User.find().toArray();
   
     if (!users) {
       res.status(404).json({ message: "No users found" });
