@@ -4,7 +4,7 @@ import {
   createRoutesFromElements as RoutesElements,
   RouterProvider,
 } from "react-router-dom";
-import { ContestList, ContestDetail, PartnerList, UserCenter, FindTeam, TeamDetailMember } from "./pages";
+import { ContestList, ContestDetail, PartnerList, UserCenter, FindTeam, TeamDetailMember, TeamDetail } from "./pages";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Root from "./components/Layout/Root";
 import ErrorPage from "./pages/ErrorPage";
@@ -20,7 +20,8 @@ function App() {
           <Route path="contest-detail" element={<ContestDetail />} />
           <Route path="partner-list" element={<PartnerList />} />
           <Route path="user-center" element={<UserCenter />} />
-          <Route path="find-team" element={<FindTeam />} />
+          <Route path="team" element={<FindTeam />} />
+          <Route path="team-detail" element={<TeamDetail/>} />
           <Route path="team-detail-member" element={<TeamDetailMember />} />
         </Route>
       </Route>

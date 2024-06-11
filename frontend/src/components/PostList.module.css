@@ -1,0 +1,9 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: white;
+    padding: 2rem 0rem;
+  }
+  
