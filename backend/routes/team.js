@@ -2,9 +2,10 @@ const router = require("express").Router();
 
 let Team = require('../schemas/team');
 
+const authMiddleware = require("../middleware/authMiddleware");
 
 // create team
-router.post("/add", async (req, res) => {
+router.post("/add", authMiddleware,async (req, res) => {
   try {
     // 一個User只能在一個比賽內創建一支隊伍
     const { teamAdmin, contestId } = req.body;
@@ -28,7 +29,7 @@ router.post("/add", async (req, res) => {
 });
 
 // get all team
-router.get("/", async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const teams = await Team.find({});
     res.status(200).json(teams);
@@ -49,7 +50,7 @@ router.get("/:_id", async (req, res) => {
 });
 
 // update a team
-router.patch("/update/:_id", async (req, res) => {
+router.patch("/update/:_id", authMiddleware,async (req, res) => {
   try {
     const { _id } = req.params;
     console.log(req.body);
@@ -72,7 +73,7 @@ router.patch("/update/:_id", async (req, res) => {
 });
 
 // delete a team
-router.delete("/:_id", async (req, res) => {
+router.delete("/:_id", authMiddleware,async (req, res) => {
   try {
     const { _id } = req.params;
     const team = await Team.findByIdAndDelete(_id);
@@ -88,7 +89,7 @@ router.delete("/:_id", async (req, res) => {
 });
 
 // 增加user到Team
-router.patch("/addUser", async(req,res) => {
+router.patch("/addUser",authMiddleware, async(req,res) => {
     const { teamId, userId } = req.body;
     console.log(req.body);
     const added = await Team.findByIdAndUpdate(
@@ -109,7 +110,7 @@ router.patch("/addUser", async(req,res) => {
 });
 
 // 將user從team中移除
-router.patch("/removeUser", async(req,res) => {
+router.patch("/removeUser", authMiddleware,async(req,res) => {
     const { teamId,userId } = req.body;
 
     const removed = await Team.findByIdAndUpdate(
@@ -131,7 +132,7 @@ router.patch("/removeUser", async(req,res) => {
 
 
 // create message and store in the Message & Team Collection
-router.post("/pushNotice", async (req, res) => {
+router.post("/pushNotice", authMiddleware,async (req, res) => {
     const { senderId, content, teamId,access } = req.body;
     
     console.log(req.body);
@@ -159,7 +160,7 @@ router.post("/pushNotice", async (req, res) => {
 
 });
 
-router.get("/getNotice/:teamId", async (req, res) => {
+router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
 
   const { teamId } = req.params;
   // get the notice from the team
