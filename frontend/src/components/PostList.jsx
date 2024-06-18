@@ -2,29 +2,24 @@ import React, { useState } from "react";
 import Post from "./Post";
 import styles from "./PostList.module.css";
 
-export const PostList = () => {
-  const [post] = useState([
+export const PostList = () => { 
+  const [posts] = useState([
     {
       name: "姓名",
-      time:"2024.05.22",
-      content: "內文",
+      time: "大學生",
+      content: "比賽類型",
     },
     {
       name: "姓名",
-      time:"2024.05.22",
-      content: "內文",
-    },
-    {
-      name: "姓名",
-      time:"2024.05.22",
-      content: "內文",
+      time: "大學生",
+      content: "比賽類型",
     },
   ]);
 
   return (
     <>
       <div className={styles.list}>
-        {post.map((p) => {
+        {posts.map((p) => {
           return (
             <Post
               name={p.name}

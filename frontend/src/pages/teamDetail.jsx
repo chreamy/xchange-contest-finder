@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from "react";
-///import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../const";
 import Banner from "../components/Banner";
@@ -7,50 +7,39 @@ import TicketTeamDetail from "../components/TicketTeamDetail";
 import TeamPost from "../components/TeamPost";
 
 
-class TeamDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      teamdetails: [
-      ],
+const TeamDetail = () => {
+  const { id } = useParams();
+  const [teamdetails, setTeamDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${HOST}/team/${id}`);
+        setTeamDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching team details:', error);
+      }
     };
-  }
 
-  fetchData = async () => {
-    let teamdetails = [];
+    fetchData();
+  }, [id]);
 
-    await axios
-      .get(`${HOST}/team/664f3dbddb46c21a731b3029`)
-      .then((res) => {
-        teamdetails = res.data;
-        this.setState({ teamdetails });
-      })
-      .catch((err) => console.log(err));
-  };
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  render() {
   return (
     <div className="contestDetail">
       <Banner />
-      {this.state.teamdetails &&
-            this.state.teamdetails.map((teamdetail) => {
-              console.log(teamdetail);
-             return (
-                <TicketTeamDetail
-                 name={teamdetail.name}
-                 endDate={teamdetail.contestId}
-                 location={teamdetail.id}
-                />
-             );
-            })}
-      <TeamPost />
+      {teamdetails ? (
+        <TicketTeamDetail
+          name={teamdetails.name}
+          endDate={teamdetails.contestId}
+          location={teamdetails._id}
+        />
+      ) : (
+        <div>Loading...</div>
+      )}
+      <TeamPost/> {/* 将teamdetails数据传递给TeamPost组件 */}
     </div>
   );
 };
-}
 
 export default TeamDetail;
 ///class TeamDetail extends Component {

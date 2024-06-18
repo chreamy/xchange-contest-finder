@@ -21,7 +21,7 @@ function App() {
           <Route path="partner-list" element={<PartnerList />} />
           <Route path="user-center" element={<UserCenter />} />
           <Route path="team" element={<FindTeam />} />
-          <Route path="team-detail" element={<TeamDetail/>} />
+          <Route path="team-detail/:id" element={<TeamDetail/>} />
           <Route path="team-detail-member" element={<TeamDetailMember />} />
         </Route>
       </Route>

@@ -2,7 +2,7 @@ import './Notice.css'
 import { PostList } from './PostList';
 import {Button} from 'react-bootstrap';
 
-function NoticePost(){
+const NoticePost = () => {
     return(
         <div className='Rules'>
             <div className='Rules-button'>
