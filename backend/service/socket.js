@@ -16,6 +16,7 @@ module.exports = (server) => {
         socket.on('join', (chatRoom) => {
             // chatRoomId 為當前user與對方user的聊天室Id
             socket.join(chatRoom);
+            console.log('User joined room: ' + chatRoom);
         })
 
         socket.on('sendMessage', async (data) => {
