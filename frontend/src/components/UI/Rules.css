@@ -2,6 +2,7 @@
     width: 68%;
     background-color: white;
     border-radius:50px 50px 50px 50px;
+    overflow: auto;
 }
 .title-Rules{
     color: #000;

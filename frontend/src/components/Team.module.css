@@ -1,0 +1,52 @@
+.team {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 1rem 4rem 1rem;
+  }
+
+  .descriptionArea {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 0% 10%;
+    border-radius: 15px 15px 15px 15px;
+  }
+  
+  .name {
+    display: flex;
+    text-align:center;
+    color: black;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 16px 0px 20px 0px;
+  }
+  .users {
+    display: flex;
+    color: black;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 16px 0px 0px 0px;
+  }
+  .contest {
+    display: flex;
+    color: black;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 16px 0px 0px 0px;
+  }
+  .description {
+    display: flex;
+    color: black;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 16px 0px 0px 0px;
+  }
+  
+  .joinTeam {
+    color: #92aa83;
+    text-decoration: none;
+    padding: 16px 0px;
+    align-self: flex-end;
+  }
+  
