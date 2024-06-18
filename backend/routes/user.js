@@ -197,23 +197,47 @@ router.post("/remove-favorite", async (req, res) => {
 });
 
 
-// filter users with similar contest interests using competition type
 router.get("/filter", authMiddleware, async (req, res) => {
   const { competitionType } = req.query;
-  try {
-    if (!competitionType) {
-      res.status(400).json({ message: "Competition type is required" });
-      return;
-    }
-
-    const users = await Form.find({ competitionType: competitionType });
+  console.log("Received query parameters:", req.query);
   
-    if (!users) {
-      res.status(404).json({ message: "No users found" });
-      return;
+  try {
+     // Use aggregation to join User and Form collections and filter by competitionType
+     const pipeline = [
+      {
+        $lookup: {
+          from: Form.collection.name,
+          localField: '_id',
+          foreignField: 'userId',
+          as: 'forms'
+        }
+      },
+    ];
+
+    // Conditionally add the $match stage if competitionType is provided
+    if (competitionType) {
+      pipeline.push({
+        $match: {
+          'forms.competitionType': competitionType
+        }
+      });
     }
 
-    res.status(200).json({ users: users });
+    pipeline.push({
+      $project: {
+        _id: 1,
+        googleId: 1,
+        email: 1,
+        name: 1,
+        username: 1,
+        favorites: 1,
+        chatUsers: 1,
+      }
+    });
+  
+    const users = await User.aggregate(pipeline).exec();
+
+    res.status(200).json({ users });
 
   } catch (error) {
     console.error("Error filtering users: ", error);
