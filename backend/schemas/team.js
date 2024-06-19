@@ -41,6 +41,12 @@ const teamSchema = new Schema({
         }
     }],
 
+    // 要求加入的user
+    askedUsers:[{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+    }],
+
     teamAdmin:{
         type:Schema.Types.ObjectId,
         ref:"User",

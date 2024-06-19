@@ -2,8 +2,10 @@ const router = require("express").Router();
 
 let Team = require('../schemas/team');
 let User = require('../schemas/user');
+let Form = require("../schemas/form");
 
 const authMiddleware = require("../middleware/authMiddleware");
+
 
 // create team
 router.post("/add", authMiddleware,async (req, res) => {
@@ -86,7 +88,6 @@ router.patch("/update/:_id", authMiddleware,async (req, res) => {
     const { _id } = req.params;
     console.log(req.body);
     
-    // 若更新的id為錯時，會顯示Team not found 但卻又新增一個team，顯然不合理?
     const team = await Team.findOneAndUpdate({ _id: _id }, req.body, {
       new: true,
     });
@@ -169,6 +170,10 @@ router.post("/joinTeam",authMiddleware,async(req,res) => {
     });
 
     await Promise.all(updatePromises);
+
+    // add asked users into team
+    team.askedUsers.push(userId);
+    await team.save();
 
     res.status(200).json({ message: 'Join request sent', notice });
   } catch (error) {
@@ -267,5 +272,31 @@ router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+router.post("/getUsersOfTeam",  async(req, res) => {
+  const { teamId } = req.body;
+
+  try {
+    const team = await Team.findById(teamId).populate("users", "name");
+
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    const usersData = await Promise.all(team.users.map(async (user) => {
+      const form = await Form.findOne({ userId: user._id });
+      return {
+        name: user.name,
+        identity: form ? form.identity : "尚未透露",
+      };
+    }));
+
+    res.json(usersData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+
+
+})
 
 module.exports = router;
