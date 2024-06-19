@@ -1,43 +1,57 @@
-import { useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { getPayload } from '../../components/Auth';
 import Contest from "../../components/Contest";
-
+import { HOST } from '../../const';
 import styles from "./MyCollection.module.css";
 
 const MyCollection = () => {
-  const [contest, setContest] = useState([
-    {
-      name: "比賽名稱",
-      date: "2024-01-31",
-      address: "???",
-      media: [""],
-      title: "第三屆永豐金控校園商業競賽",
-      link: "https://bhuntr.com/tw/competitions/2j7caw8wuyajnc5wl0",
-    },
-    {
-      title: "憂鬱主題原創歌曲/微電影徵稿活動",
-      link: "https://bhuntr.com/tw/competitions/1cj5lwubdzchxg75fe",
-    },
-    {
-      title: "2024年全國學生圖畫書創作獎",
-      link: "https://bhuntr.com/tw/competitions/mtjjseznw2rp7eojam",
-    },
-    {
-      title: "第2屆緋染天空插畫比賽",
-      link: "https://bhuntr.com/tw/competitions/dzxgmygitmlruevsi3",
-    },
-  ]);
+  const [contests, setContests] = useState([]);
+
+  useEffect(() => {
+    const fetchContests = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const payload = getPayload(token)
+        if (!token) {
+          console.log("No token found");
+          return; // or handle this scenario appropriately
+        }
+
+        const response = await axios.get(`${HOST}/user/profileById/${payload.userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (response.data) {
+          console.log(response.data.user.favorites[0])
+          const response2 = await axios.get(`${HOST}/contest/${response.data.user.favorites[0]}`, { 
+          headers: { Authorization: `Bearer ${token}` }
+          
+        });
+        console.log(response2.data)
+        setContests([response2.data]);
+        
+        }
+        
+      } catch (error) {
+        console.error('Failed to fetch contest data:', error);
+      }
+    };
+
+    fetchContests();
+  }, []);
 
   return (
     <div className={styles.list}>
-      {contest.map((contest) => {
-        return (
-          <Contest
-            title={contest.title}
-            link={contest.link}
-            coverImg={contest.coverImg}
-          />
-        );
-      })}
+      {contests.length > 0 ? contests.map((contest, index) => (
+        <Contest
+          key={index}
+          title={contest.title}
+          link={contest.link}
+          coverImg={contest.coverImg}
+        />
+      )) : <p>No contests found</p>}
     </div>
   );
 };

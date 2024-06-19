@@ -12,31 +12,66 @@ const SignUpForm = ({ onClose }) => {
     axios.post(`${HOST}/user/google-login`, {
       token: res.credential,
       test: "aaa",
+    }).then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.error("Signup error:", error);
     });
   };
+
   const handleGoogleLoginFailure = (res) => {
     console.log("Login Failed:", res);
+  };
+
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const username = event.target.username.value;
+    const password = event.target.password.value;
+    const confirmPassword = event.target.confirmPassword.value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    axios.post(`${HOST}/user/register`, {
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+    }).then(response => {
+      console.log("Signup successful:", response.data);
+      onClose(); // Close the modal after successful signup
+    }).catch(error => {
+      console.error("Signup error:", error);
+    });
   };
 
   return (
     <Modal onClose={onClose}>
       <h2 className={styles.h2}>帳號註冊</h2>
-      <form className={styles.form} action="">
+      <form className={styles.form} onSubmit={handleSignUp}>
         <div className={styles.formItem}>
-          <label>&nbsp;&nbsp;&nbsp;&nbsp;帳號&nbsp;&nbsp;&nbsp;</label>
-          <input type="text" required></input>
+          <label>&nbsp;&nbsp;&nbsp;&nbsp;姓名&nbsp;&nbsp;&nbsp;</label>
+          <input name="name" type="text" required />
         </div>
         <div className={styles.formItem}>
-          <label>&nbsp;&nbsp;&nbsp;&nbsp;暱稱&nbsp;&nbsp;&nbsp;</label>
-          <input type="text" required></input>
+          <label>&nbsp;&nbsp;Email&nbsp;&nbsp;&nbsp;</label>
+          <input name="email" type="text" required />
+        </div>
+        <div className={styles.formItem}>
+          <label>帳號名稱</label>
+          <input name="username" type="text" required />
         </div>
         <div className={styles.formItem}>
           <label>&nbsp;&nbsp;&nbsp;&nbsp;密碼&nbsp;&nbsp;&nbsp;</label>
-          <input type="password" required></input>
+          <input name="password" type="password" required />
         </div>
         <div className={styles.formItem}>
           <label>確認密碼</label>
-          <input type="password" required></input>
+          <input name="confirmPassword" type="password" required />
         </div>
         <button type="submit">Sign Up</button>
       </form>
