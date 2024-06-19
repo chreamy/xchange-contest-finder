@@ -12,7 +12,7 @@ const teamSchema = new Schema({
 
     contestId:{
         type:Schema.Types.ObjectId,
-        ref:"Contest",
+        ref:"Contests",
         required:true,
     },
 

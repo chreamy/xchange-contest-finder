@@ -43,8 +43,38 @@ router.get("/",async (req, res) => {
 router.get("/:_id", async (req, res) => {
   try {
     const { _id } = req.params;
-    const team = await Team.findById(_id);
-    res.status(200).json(team);
+    const team = await Team.findById(_id)
+      .populate("contestId","title")
+      .populate("teamAdmin","name")
+      .populate("notice.sender","name");
+
+
+    if(!team){
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    const formatDate = (date) => {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const day = d.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+  };
+
+    const teanInfo = {
+      name: team.name,
+      contestTitle: team.contestId.title,
+      numberOfUsers: team.users.length,
+      notices: team.notice.map(notice => ({
+          content: notice.content,
+          sender: notice.sender.name,
+          createdAt: formatDate(notice.createdAt)
+      })),
+      teamAdminName: team.teamAdmin.name,
+      introduction: team.introduction
+  };
+
+    res.status(200).json(teanInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
