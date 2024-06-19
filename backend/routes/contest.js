@@ -117,6 +117,16 @@ router.route("/search").post(async (req, res) => {
 });
 
 router.route("/:id").get(async (req, res) => {
-  // get the contests by ID
+  try {
+    const contest = await Contest.findOne({ _id: req.params.id });
+    if (!contest) {
+      return res.status(404).json({ message: "Contest not found" });
+    }
+    res.json(contest);
+  } catch (error) {
+    console.error("Error fetching contest by ID: ", error);
+    res.status(500).json({ message: "Error fetching contest", error: error });
+  }
 });
+
 module.exports = router;

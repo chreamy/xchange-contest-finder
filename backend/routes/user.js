@@ -57,8 +57,8 @@ router.post("/login", async (req, res) => {
     );
     res.status(200).json({ token: token, user: user });
   } catch (error) {
-    console.error("Error logging in user: ", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.log("Error logging in user: ", error);
+    res.status(500).json({ message: error });
   }
 });
 router.delete("/:username", async (req, res) => {
@@ -80,6 +80,40 @@ router.get("/profile/:username", authMiddleware, async (req, res) => {
   const username = req.params.username;
   try {
     const user = await User.findOne({ username: username });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    // get the form of the user
+    const form = await Form.findOne({ user: user.userId });
+
+    // There's a users array in the team schema, so we need to find all teams where the user is a member
+    const teams = await Team.find({ users: user });
+
+    // loop through teams and get the contestId of each team
+    const contestIds = teams.map((team) => team.contestId);
+
+    // get all contests where the user is a member of a team
+    const contests = [];
+    for (let i = 0; i < contestIds.length; i++) {
+      const contest = await Contest.findOne({ _hashId: contestIds[i] });
+      contests.push(contest);
+    }
+
+    res
+      .status(200)
+      .json({ user: user, form: form, teams: teams, contests: contests });
+  } catch (error) {
+    console.error("Error getting user profile: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/profileById/:id", authMiddleware, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findOne({ _id: id });
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
