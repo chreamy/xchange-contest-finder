@@ -1,0 +1,13 @@
+.post{
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #000;
+}
+.persontime{
+    display: flex;
+    justify-content: space-between;
+}
+.poster{
+    font-size: 2rem;
+}
