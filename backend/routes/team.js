@@ -9,8 +9,20 @@ const authMiddleware = require("../middleware/authMiddleware");
 // get all team
 router.get("/",async (req, res) => {
   try {
-    const teams = await Team.find({});
-    res.status(200).json(teams);
+    const teams = await Team.find({})
+      .populate("contestId","title");
+    // name, numOfUsers, contestTitle, introduction
+
+    const teamDetail = await Promise.all(teams.map( async (team) => {
+      return {
+        teamName: team.name,
+        contestTitle: team.contestId.title,
+        numberOfUsers: team.users.length,
+        introduction: team.introduction
+      };
+    }));
+
+    res.status(200).json(teamDetail);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
