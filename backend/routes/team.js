@@ -6,31 +6,6 @@ let Form = require("../schemas/form");
 
 const authMiddleware = require("../middleware/authMiddleware");
 
-
-// create team
-router.post("/add", authMiddleware,async (req, res) => {
-  try {
-    // 一個User只能在一個比賽內創建一支隊伍
-    const { teamAdmin, contestId } = req.body;
-    const team = await Team.findOne({ 
-      teamAdmin: teamAdmin,
-      contestId: contestId
-    })
-
-    // 若teamAdmin已經在該contest下創建隊伍，則不允許再次創建
-    if (team) {
-      return res.status(400).json({ message: "You cannot create more than one team for each contest." });
-    }
-
-    const newTeam = await Team.create(req.body);
-    console.log(req.body);
-    res.status(200).json(newTeam);
-  } catch (error) {
-    console.error("Error creating team: ", error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
 // get all team
 router.get("/",async (req, res) => {
   try {
@@ -82,11 +57,35 @@ router.get("/:_id", async (req, res) => {
   }
 });
 
-// update a team
+// create team
+router.post("/add", authMiddleware,async (req, res) => {
+  try {
+    // 一個User只能在一個比賽內創建一支隊伍
+    const { teamAdmin, contestId } = req.body;
+    const team = await Team.findOne({ 
+      teamAdmin: teamAdmin,
+      contestId: contestId
+    })
+
+    // 若teamAdmin已經在該contest下創建隊伍，則不允許再次創建
+    if (team) {
+      return res.status(400).json({ message: "You cannot create more than one team for each contest." });
+    }
+
+    const newTeam = await Team.create(req.body);
+    console.log(req.body);
+    res.status(200).json(newTeam);
+  } catch (error) {
+    console.error("Error creating team: ", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+// 編輯隊伍資料
 router.patch("/update/:_id", authMiddleware,async (req, res) => {
   try {
     const { _id } = req.params;
-    console.log(req.body);
     
     const team = await Team.findOneAndUpdate({ _id: _id }, req.body, {
       new: true,
@@ -120,8 +119,6 @@ router.delete("/:_id", authMiddleware,async (req, res) => {
   }
 });
 
-
-
 // 將user從team中移除
 router.patch("/removeUser", authMiddleware,async(req,res) => {
     const { teamId,userId } = req.body;
@@ -146,11 +143,11 @@ router.patch("/removeUser", authMiddleware,async(req,res) => {
 // 申請加入隊伍
 // 會發出一個 notice 給所有在team內的人
 router.post("/joinTeam",authMiddleware,async(req,res) => {
-  const { userId, teamId } = req.body;
+  try {  
+    const { teamId } = req.body;
+    const user = req.user;
 
-  try {
     const team = await Team.findById(teamId).populate('users');
-    const user = await User.findById(userId);
 
     if (!team || !user) {
       return res.status(404).json({ error: "User or Team not found" });
@@ -172,35 +169,65 @@ router.post("/joinTeam",authMiddleware,async(req,res) => {
     await Promise.all(updatePromises);
 
     // add asked users into team
-    team.askedUsers.push(userId);
+    team.askedUsers.push(user._id);
     await team.save();
 
     res.status(200).json({ message: 'Join request sent', notice });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-})
+});
 
-// 增加user到Team
+// 同意user加入到Team
 // 隊長按下確認的 button
 router.patch("/addUser",authMiddleware, async(req,res) => {
-  const { teamId, userId } = req.body;
+  const { teamId } = req.body;
+  const user = req.user;
 
-  const added = await Team.findByIdAndUpdate(
+  try{
+    const added = await Team.findByIdAndUpdate(
       teamId,
       {
-          $push: { users: userId },
+          $push: { users: user._id },
       },
       { new: true }
-  ).populate("users", "-password")
-    .populate("teamAdmin", "-password");
+    ).populate("users", "-password")
+      .populate("teamAdmin", "-password");
 
-  if (!added) {
-      return res.status(404).json("Team not found");
-  } else {
-      res.json(added);
+    if (!added) {
+        return res.status(404).json("Team not found");
+    } else {
+        res.status(200).json(added);
+    }
+  } catch(error) {
+    res.status(500).json({error:error.message});
   }
+  
 });
+
+// 拒絕user加入
+router.patch("/denyForJoin", authMiddleware, async(req,res) => {
+  // delete askedUser
+  const { userId, teamId } = req.body;
+
+  try{
+    const team = await Team.findByIdAndDelete(
+      teamId,
+      {
+        $pull: { askedUsers: userId }
+      },
+      { new : true}
+    );
+
+    if(!team) {
+      res.status(400).json({Message: 'Team not found'});
+    }
+
+    res.status(200).json({ Message: 'Deny user for joining'});
+  } catch (error){
+    res.status(500).json({ error: error.message })
+  }
+})
 
 // 寄送邀請給 user
 router.post("/invite", authMiddleware, async (req,res) => {
@@ -219,10 +246,10 @@ router.post("/invite", authMiddleware, async (req,res) => {
       { new: true}
     )
 
-    if (!added) {
+    if (!addNotice) {
       return res.status(404).json("Team not found");
     } else {
-        res.json(added);
+        res.json(addNotice);
     }
   } catch(error){
     res.status(400).json({ error: error.message });
@@ -234,8 +261,6 @@ router.post("/invite", authMiddleware, async (req,res) => {
 // create message and store in the Message & Team Collection
 router.post("/pushNotice", authMiddleware,async (req, res) => {
     const { senderId, content, teamId,access } = req.body;
-    
-    console.log(req.body);
 
     try {
       // 將message存入Team lastMessage
@@ -260,8 +285,8 @@ router.post("/pushNotice", authMiddleware,async (req, res) => {
 
 });
 
+// 公告
 router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
-
   const { teamId } = req.params;
   // get the notice from the team
   try {
@@ -273,7 +298,8 @@ router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
   }
 });
 
-router.post("/getUsersOfTeam",  async(req, res) => {
+// 隊友資訊
+router.post("/getUsersOfTeam", authMiddleware, async(req, res) => {
   const { teamId } = req.body;
 
   try {
@@ -296,7 +322,7 @@ router.post("/getUsersOfTeam",  async(req, res) => {
     res.status(500).json({ message: error.message });
   }
 
-
 })
+
 
 module.exports = router;
