@@ -13,8 +13,11 @@ router.get("/",async (req, res) => {
       .populate("contestId","title");
     // name, numOfUsers, contestTitle, introduction
 
+    console.log(teams);
+
     const teamDetail = await Promise.all(teams.map( async (team) => {
       return {
+        teamId:team._id, 
         teamName: team.name,
         contestTitle: team.contestId.title,
         numberOfUsers: team.users.length,
@@ -50,7 +53,8 @@ router.get("/:_id", async (req, res) => {
       return `${year}-${month}-${day}`;
   };
 
-    const teanInfo = {
+    const teamInfo = {
+      teamId:team._id,
       name: team.name,
       contestTitle: team.contestId.title,
       numberOfUsers: team.users.length,
@@ -63,7 +67,7 @@ router.get("/:_id", async (req, res) => {
       introduction: team.introduction
   };
 
-    res.status(200).json(teanInfo);
+    res.status(200).json(teamInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -298,7 +302,7 @@ router.post("/pushNotice", authMiddleware,async (req, res) => {
 });
 
 // 公告
-router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
+router.get("/getNotice/:_id", authMiddleware,async (req, res) => {
   const { teamId } = req.params;
   // get the notice from the team
   try {
