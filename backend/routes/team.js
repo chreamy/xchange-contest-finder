@@ -45,14 +45,6 @@ router.get("/:_id", async (req, res) => {
       return res.status(404).json({ message: 'Team not found' });
     }
 
-    const formatDate = (date) => {
-      const d = new Date(date);
-      const year = d.getFullYear();
-      const month = (d.getMonth() + 1).toString().padStart(2, '0');
-      const day = d.getDate().toString().padStart(2, '0');
-      return `${year}-${month}-${day}`;
-  };
-
     const teamInfo = {
       teamId:team._id,
       name: team.name,
@@ -303,12 +295,17 @@ router.post("/pushNotice", authMiddleware,async (req, res) => {
 
 // 查詢單一隊伍公告
 router.get("/getNotice/:_id",async (req, res) => {
-  const { teamId } = req.params;
+  const { _id } = req.params;
   // get the notice from the team
   try {
-    const team = await Team.findById(teamId);
-    console.log(team.notice);
-    res.status(200).json(team.notice);
+    const team = await Team.findById(_id).populate('notice.sender');
+    const teamNotices = team.notice.map(notice => ({
+      noticeId:notice._id,
+      sender:notice.sender.name,
+      content:notice.content,
+      createdAt:formatDate(notice.createdAt)
+    }))
+    res.status(200).json(teamNotices);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -340,5 +337,12 @@ router.post("/getUsersOfTeam", async(req, res) => {
 
 })
 
+const formatDate = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 module.exports = router;
