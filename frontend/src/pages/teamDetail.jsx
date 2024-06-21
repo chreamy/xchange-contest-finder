@@ -5,16 +5,18 @@ import { HOST } from "../const";
 import Banner from "../components/Banner";
 import TicketTeamDetail from "../components/TicketTeamDetail";
 import TeamPost from "../components/TeamPost";
-
+ 
 
 const TeamDetail = () => {
   const { id } = useParams();
   const [teamdetails, setTeamDetails] = useState(null);
+  const [teamposts, setTeamPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${HOST}/team/${id}`);
+        console.log('Team details:', response.data);
         setTeamDetails(response.data);
       } catch (error) {
         console.error('Error fetching team details:', error);
@@ -24,19 +26,35 @@ const TeamDetail = () => {
     fetchData();
   }, [id]);
 
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try{
+        const response = await axios.get(`${HOST}/team/getNotice/${id}`);
+        console.log('Team posts:', response.posts); 
+        setTeamPosts(response.posts);
+      }catch(error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, [id]);
+
   return (
     <div className="contestDetail">
       <Banner />
       {teamdetails ? (
         <TicketTeamDetail
           name={teamdetails.name}
-          endDate={teamdetails.contestId}
-          location={teamdetails._id}
+          contestTitle={teamdetails.contestTitle}
+          teamAdminName={teamdetails.teamAdminName}
+          numberOfUsers={teamdetails.numberOfUsers}
         />
       ) : (
         <div>Loading...</div>
       )}
-      <TeamPost/> {/* 将teamdetails数据传递给TeamPost组件 */}
+      <TeamPost teamdetails={teamdetails} teamposts={teamposts} /> {/* 将teamdetails数据传递给TeamPost组件*/}
     </div>
   );
 };

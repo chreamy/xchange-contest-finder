@@ -1,18 +1,18 @@
 import './Detail.css';
 import TeamIntro from './TeamIntro';
-import TeamType from './TeamType';
-import TeamLack from './TeamLack';
+///import TeamType from './TeamType';
+///import TeamLack from './TeamLack';
 
-
-
-function TeamDetail(){
-    return(
+const TeamDetail = ({ teamdetails }) => {
+    if (!teamdetails) {
+        return <div>Loading...</div>;
+      }
+    return (
         <div className='Detail'>
-            <TeamIntro/>
-            <TeamType/>
-            <TeamLack/>
-            
+            <TeamIntro teamdetails={teamdetails}/>
+            {/*<TeamType/>
+            <TeamLack/>*/}
         </div>
-    )
-}
-export default TeamDetail;
+    );
+  };
+  export default TeamDetail;
