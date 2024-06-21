@@ -74,7 +74,7 @@ router.get("/:_id", async (req, res) => {
 });
 
 // create team
-router.post("/add", authMiddleware,async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
     // 一個User只能在一個比賽內創建一支隊伍
     const { teamAdmin, contestId } = req.body;
@@ -99,7 +99,7 @@ router.post("/add", authMiddleware,async (req, res) => {
 
 
 // 編輯隊伍資料
-router.patch("/update/:_id", authMiddleware,async (req, res) => {
+router.patch("/update/:_id", async (req, res) => {
   try {
     const { _id } = req.params;
     
@@ -301,8 +301,8 @@ router.post("/pushNotice", authMiddleware,async (req, res) => {
 
 });
 
-// 公告
-router.get("/getNotice/:_id", authMiddleware,async (req, res) => {
+// 查詢單一隊伍公告
+router.get("/getNotice/:_id",async (req, res) => {
   const { teamId } = req.params;
   // get the notice from the team
   try {
@@ -315,7 +315,7 @@ router.get("/getNotice/:_id", authMiddleware,async (req, res) => {
 });
 
 // 隊友資訊
-router.post("/getUsersOfTeam", authMiddleware, async(req, res) => {
+router.post("/getUsersOfTeam", async(req, res) => {
   const { teamId } = req.body;
 
   try {
