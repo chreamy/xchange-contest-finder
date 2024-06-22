@@ -30,7 +30,11 @@ const userSchema = new Schema({
   notice:{
     type:[String],
     default:[]
-  }
+  },
+  identity: {
+    type: String,
+    default: "Unknown",
+  },
 });
 
 const User = mongoose.model("User", userSchema);

@@ -1,21 +1,7 @@
 const router = require("express").Router();
 const Form = require("../schemas/form");
+const User = require("../schemas/user");
 const authMiddleware = require("../middleware/authMiddleware");
-
-router.post("/", authMiddleware, async (req, res) => {
-  try {
-    // get current user from middleware, userData is set in middleware
-    const user = req.userData;
-    const form = new Form({
-      ...req.body,
-      userId: user.userId,
-    });
-    await form.save();
-    res.status(201).send(form);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
 
 router.patch("/", authMiddleware, async (req, res) => {
   try {
@@ -25,6 +11,10 @@ router.patch("/", authMiddleware, async (req, res) => {
     }
     form.set(req.body);
     await form.save();
+    const userForm = await User.fineOne(req.userData.userId);
+    if (req.body.identity) userForm.identity = true;
+
+    await userForm.save();
     res.send(form);
   } catch (error) {
     res.status(400).send(error);
