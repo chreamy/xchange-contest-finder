@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 let Team = require('../schemas/team');
 let User = require('../schemas/user');
-let Form = require('../schemas/form');
 
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -33,8 +32,7 @@ router.post("/add", authMiddleware,async (req, res) => {
 // get all team
 router.get("/",async (req, res) => {
   try {
-    const teams = await Team.find({})
-
+    const teams = await Team.find({});
     res.status(200).json(teams);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,18 +43,7 @@ router.get("/",async (req, res) => {
 router.get("/:_id", async (req, res) => {
   try {
     const { _id } = req.params;
-    const team = await Team.findById(_id).populate({
-      path: 'users',
-      select: 'name identity',
-      populate: {
-        path: 'form',
-        model: 'Form',
-        select: 'identity',
-        options: { strictPopulate: false } // Disable strictPopulate
-      },
-      options: { strictPopulate: false } // Disable strictPopulate
-    });
-    
+    const team = await Team.findById(_id);
     res.status(200).json(team);
   } catch (error) {
     res.status(500).json({ message: error.message });
