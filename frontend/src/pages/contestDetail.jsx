@@ -6,7 +6,7 @@ import Banner from "../components/Banner";
 import Ticket from "../components/Ticket";
 import Content from "../components/Content";
 import "./contestDetail.css";
-
+ 
 const ContestDetail = () => {
   const { id } = useParams();
   const [contestdetails, setContestDetails] = useState(null);
@@ -14,7 +14,7 @@ const ContestDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${HOST}/contest/list/`);
+        const response = await axios.get(`${HOST}/contest/${id}`);
         setContestDetails(response.data);
       } catch (error) {
         console.error('Error fetching team details:', error);

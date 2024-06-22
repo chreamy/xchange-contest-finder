@@ -36,9 +36,9 @@ import styles from "./findTeam.module.css";
           <div className={styles.list}>
             {this.state.teams &&
               this.state.teams.map((team) => (
-                <Team name={team.name}
-                ///users={team.users}
-                //contest={team.contestId}
+                <Team name={team.teamName}
+                users={team.numberOfUsers}
+                contest={team.contestTitle}
                 introduction={team.introduction}
                 link={team._id} />
               ))}

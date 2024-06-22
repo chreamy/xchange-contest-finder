@@ -93,7 +93,7 @@ class ContestList extends Component {
               return (
                 <Contest
                   title={contest.title}
-                  link={contest.link}
+                  link={contest._id}
                   coverImg={contest.coverImg}
                 />
               );
