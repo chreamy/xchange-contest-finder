@@ -1,4 +1,5 @@
 import styles from "./Contest.module.css";
+import { Link } from "react-router-dom";
 
 const Contest = (props) => {
   return (
@@ -8,9 +9,9 @@ const Contest = (props) => {
       </div>
       <div className={styles.descriptionArea}>
         <p className={styles.title}>{props.title}</p>
-        <a href={props.link} className={styles.readMore}>
+        <Link to={`/contest-detail/${props.link}`} className={styles.readMore}>
           Read more →
-        </a>
+        </Link>
       </div>
     </div>
   );

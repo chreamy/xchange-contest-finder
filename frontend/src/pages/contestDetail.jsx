@@ -1,26 +1,42 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { HOST } from "../const";
 import Banner from "../components/Banner";
 import Ticket from "../components/Ticket";
 import Content from "../components/Content";
 import "./contestDetail.css";
+ 
+const ContestDetail = () => {
+  const { id } = useParams();
+  const [contestdetails, setContestDetails] = useState(null);
 
-//create-react-app
-//class ContestList extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {};
-//   }
-//   componentDidMount() {}
-//   render() {
-//     return <h1>Hello World</h1>;
-//   }
-// }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${HOST}/contest/${id}`);
+        setContestDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching team details:', error);
+      }
+    };
 
-let ContestDetail = () => {
+    fetchData();
+  }, [id]);
+
   return (
     <div className="contestDetail">
       <Banner />
-      <Ticket />
+      {contestdetails ? (
+        <Ticket
+          title={contestdetails.title}
+          location={contestdetails.location}
+          endDate={contestdetails.teamAdminName}
+          maxPrize={contestdetails.maxPrize}
+        />
+      ) : (
+        <div>Loading...</div>
+      )}
       <Content />
     </div>
   );

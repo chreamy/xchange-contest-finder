@@ -13,14 +13,13 @@ const TicketTeamDetail = (props) =>{
             {/*<img src={logo} className="App-logo" alt="logo" />*/}
             <div className='ticket-main'>
                 <p className='ticket-name'>{props.name}</p>
+                <p className='ticket-detail'>比賽名稱:{props.contestTitle}</p>
                 <p className='ticket-detail'>比賽類別:</p>
-                <p className='ticket-detail'>截止時間:{props.endDate}</p>
-                <p className='ticket-detail'>比賽地區:{props.location}</p>
-                <p className='ticket-detail'>最高獎金:</p>
+                <p className='ticket-detail'>隊長資訊:{props.teamAdminName}</p>
+                <p className='ticket-detail'>隊伍人數:{props.numberOfUsers}/6</p>
                 <div className='switchButton'>
-                    <Button href="#" size="lg" className="custom-bg-color">前往比賽網站</Button>{' '}
-                    <Button href="#" size="lg" className="custom-bg-color">前往隊伍</Button>{' '}
-                    <Button href="#" size="lg" className="custom-bg-color">找隊友</Button>{' '}
+                    <Button href="#" size="lg" className="custom-bg-color">聯絡隊長</Button>{' '}
+                    <Button href="#" size="lg" className="custom-bg-color">申請加入</Button>{' '}
                 </div>
             </div>
             <div className='ticket-end'>
