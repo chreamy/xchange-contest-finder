@@ -9,7 +9,7 @@ const PersonalInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: '',
     name: '',
-    birthday: '',
+    birthday: new Date(),
     identity: '',
     contestType: '',
     softSkills: '',
@@ -32,12 +32,12 @@ const PersonalInfo = () => {
           setUserInfo({
             email: user.email || '',
             name: user.name || '',
-            birthday: form.birthday || '',
+            birthday: form.birthday || new Date(),
             identity: form.identity || '',
-            contestType: form.contestType || '',
+            competitionType: form.competitionType || '',
             softSkills: form.softSkills || '',
             hardSkills: form.hardSkills || '',
-            bio: form.bio || ''
+            introduction: form.introduction || ''
           });
         }
       } catch (error) {
@@ -61,7 +61,7 @@ const PersonalInfo = () => {
         </div>
         <div className={styles.selectable}>
           <label>生日</label>
-          <input type="date" value={userInfo.birthday} readOnly />
+          <input type="text" value={new Date(userInfo.birthday).toLocaleDateString()} readOnly />
         </div>
         <div className={styles.selectable}>
           <label>身分</label>
@@ -75,7 +75,7 @@ const PersonalInfo = () => {
         </div>
         <div className={styles.textarea}>
           <label>比賽類型</label>
-          <textarea value={userInfo.contestType}></textarea>
+          <textarea value={userInfo.competitionType}></textarea>
         </div>
         <div className={styles.textarea}>
           <label>個人技能 (軟實力)</label>
@@ -87,7 +87,7 @@ const PersonalInfo = () => {
         </div>
         <div className={styles.textarea}>
           <label>簡介</label>
-          <textarea value={userInfo.bio}></textarea>
+          <textarea value={userInfo.introduction}></textarea>
         </div>
       </form>
     </div>

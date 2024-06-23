@@ -1,11 +1,10 @@
-import './Period.css'
-import contest_detail_test from './contest_detail_test.json';
+import './Period.css';
 
-function Period(){
+function Period({contestData}){
     return(
         <div className='Period'>
             <h2 className='title'>比賽期間</h2>
-            <p className='substance'>{contest_detail_test[0].startDate} ~ {contest_detail_test[0].endDate}</p>
+            <p className='substance'>{new Date(contestData.startDate).toLocaleString()} ~ {new Date(contestData.endDate).toLocaleString()}</p>
         </div>
 
     )

@@ -1,17 +1,18 @@
+import React from 'react';
 import './Detail.css';
-import Period from './Period';
 import Organizer from './Organizer';
+import Period from './Period';
 import Type from './Type';
 
-
-function Detail(){
-    return(
+// Accept detailData as a prop in Detail
+function Detail({ contestData }) {
+    return (
         <div className='Detail'>
-            <Period/>
-            <Organizer/>
-            <Type/>
-            
+            <Period contestData={contestData} />
+            <Organizer contestData={contestData} />
+            <Type contestData={contestData} />
         </div>
-    )
+    );
 }
+
 export default Detail;

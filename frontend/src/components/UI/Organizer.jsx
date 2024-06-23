@@ -1,11 +1,10 @@
-import './Period.css'
-import contest_detail_test from './contest_detail_test.json';
+import './Period.css';
 
-function Organizer(){
+function Organizer({contestData}){
     return(
         <div className='Period'>
             <h2 className='title'>主辦單位</h2>
-            <p className='substance'>{contest_detail_test[0].organizer}</p>
+            <p className='substance'>{contestData.organizer}</p>
         </div>
 
     )

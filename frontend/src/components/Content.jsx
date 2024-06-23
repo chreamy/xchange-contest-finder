@@ -1,12 +1,15 @@
-import './Content.css'
+import React from 'react';
 import Detail from '../components/UI/Detail';
 import Rules from '../components/UI/Rules';
-function Content(){
-    return(
+import './Content.css';
+
+function Content({ contestData }) {
+    return (
         <div className='Content'>
-            <Detail/>
-            <Rules/>
+            <Detail contestData={contestData}/>
+            <Rules contestData={contestData}/>
         </div>
-    )
+    );
 }
+
 export default Content;

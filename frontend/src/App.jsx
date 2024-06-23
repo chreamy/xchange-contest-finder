@@ -1,12 +1,12 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import {
   Route,
   createBrowserRouter as Router,
-  createRoutesFromElements as RoutesElements,
   RouterProvider,
+  createRoutesFromElements as RoutesElements,
 } from "react-router-dom";
-import { ContestList, ContestDetail, PartnerList, UserCenter, FindTeam, TeamDetailMember, TeamDetail } from "./pages";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import Root from "./components/Layout/Root";
+import { ContestDetail, ContestList, FindTeam, PartnerList, TeamDetail, TeamDetailMember, UserCenter } from "./pages";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Root />}>
           <Route index element={<ContestList />} />
           <Route path="contest-list" element={<ContestList />} />
-          <Route path="contest-detail" element={<ContestDetail />} />
+          <Route path="contest-detail/:id" element={<ContestDetail />} />
           <Route path="partner-list" element={<PartnerList />} />
           <Route path="user-center" element={<UserCenter />} />
           <Route path="team" element={<FindTeam />} />
