@@ -281,16 +281,18 @@ router.get("/filter", authMiddleware, async (req, res) => {
 
 // check invite
 router.post("/confirmInvite", authMiddleware, async(req,res) => {
-  const {teamId, userId} = req.body;
-
   try{
+  
+    const {teamId} = req.body;
+    const user = req.user;
+
     const team = await Team.findOne({_id:teamId});
     if (!team) {
       return res.status(404).json({ message: "Team not found" });
     }
 
-    if(!team.users.includes(userId)){
-      team.users.push(userId);
+    if(!team.users.includes(user._id)){
+      team.users.push(user._id);
       await team.save();
       return res.status(200).json({ message: "User added", team:team });
     } else {
@@ -301,6 +303,22 @@ router.post("/confirmInvite", authMiddleware, async(req,res) => {
     res.status(500).json({ message: "Server error", error: error });
   }
   
+})
+
+// get notice
+router.post("/getNotice",authMiddleware, async(req, res) => {
+  try{
+    const user = req.user;  
+
+    if(!user){
+      res.status(404).json({Message:'User not found'});
+    } else {
+      res.status(200).json(user.notice);
+    }
+  } catch(error) {
+
+    res.status(500).json({ message: "Server error", error:error});
+  }
 })
 
 module.exports = router;

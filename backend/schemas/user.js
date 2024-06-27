@@ -20,7 +20,7 @@ const userSchema = new Schema({
   },
   favorites: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "Contest",
+    ref: "Contests",
     default: [],
   },
   chatUsers:[{

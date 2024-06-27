@@ -2,11 +2,71 @@ const router = require("express").Router();
 
 let Team = require('../schemas/team');
 let User = require('../schemas/user');
+let Form = require("../schemas/form");
 
 const authMiddleware = require("../middleware/authMiddleware");
 
+// get all team
+router.get("/",async (req, res) => {
+  try {
+    const teams = await Team.find({})
+      .populate("contestId","title");
+    // name, numOfUsers, contestTitle, introduction
+
+    console.log(teams);
+
+    const teamDetail = await Promise.all(teams.map( async (team) => {
+      return {
+        teamId:team._id, 
+        teamName: team.name,
+        contestTitle: team.contestId.title,
+        numberOfUsers: team.users.length,
+        introduction: team.introduction
+      };
+    }));
+
+    res.status(200).json(teamDetail);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// get team by id
+router.get("/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const team = await Team.findById(_id)
+      .populate("contestId","title")
+      .populate("teamAdmin","name")
+      .populate("notice.sender","name");
+
+
+    if(!team){
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    const teamInfo = {
+      teamId:team._id,
+      name: team.name,
+      contestTitle: team.contestId.title,
+      numberOfUsers: team.users.length,
+      notices: team.notice.map(notice => ({
+          content: notice.content,
+          sender: notice.sender.name,
+          createdAt: formatDate(notice.createdAt)
+      })),
+      teamAdminName: team.teamAdmin.name,
+      introduction: team.introduction
+  };
+
+    res.status(200).json(teamInfo);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // create team
-router.post("/add", authMiddleware,async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
     // 一個User只能在一個比賽內創建一支隊伍
     const { teamAdmin, contestId } = req.body;
@@ -29,34 +89,12 @@ router.post("/add", authMiddleware,async (req, res) => {
   }
 });
 
-// get all team
-router.get("/",async (req, res) => {
-  try {
-    const teams = await Team.find({});
-    res.status(200).json(teams);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
 
-// get team by id
-router.get("/:_id", async (req, res) => {
+// 編輯隊伍資料
+router.patch("/update/:_id", async (req, res) => {
   try {
     const { _id } = req.params;
-    const team = await Team.findById(_id);
-    res.status(200).json(team);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// update a team
-router.patch("/update/:_id", authMiddleware,async (req, res) => {
-  try {
-    const { _id } = req.params;
-    console.log(req.body);
     
-    // 若更新的id為錯時，會顯示Team not found 但卻又新增一個team，顯然不合理?
     const team = await Team.findOneAndUpdate({ _id: _id }, req.body, {
       new: true,
     });
@@ -89,8 +127,6 @@ router.delete("/:_id", authMiddleware,async (req, res) => {
   }
 });
 
-
-
 // 將user從team中移除
 router.patch("/removeUser", authMiddleware,async(req,res) => {
     const { teamId,userId } = req.body;
@@ -115,11 +151,11 @@ router.patch("/removeUser", authMiddleware,async(req,res) => {
 // 申請加入隊伍
 // 會發出一個 notice 給所有在team內的人
 router.post("/joinTeam",authMiddleware,async(req,res) => {
-  const { userId, teamId } = req.body;
+  try {  
+    const { teamId } = req.body;
+    const user = req.user;
 
-  try {
     const team = await Team.findById(teamId).populate('users');
-    const user = await User.findById(userId);
 
     if (!team || !user) {
       return res.status(404).json({ error: "User or Team not found" });
@@ -140,32 +176,66 @@ router.post("/joinTeam",authMiddleware,async(req,res) => {
 
     await Promise.all(updatePromises);
 
+    // add asked users into team
+    team.askedUsers.push(user._id);
+    await team.save();
+
     res.status(200).json({ message: 'Join request sent', notice });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-})
+});
 
-// 增加user到Team
+// 同意user加入到Team
 // 隊長按下確認的 button
 router.patch("/addUser",authMiddleware, async(req,res) => {
-  const { teamId, userId } = req.body;
+  const { teamId } = req.body;
+  const user = req.user;
 
-  const added = await Team.findByIdAndUpdate(
+  try{
+    const added = await Team.findByIdAndUpdate(
       teamId,
       {
-          $push: { users: userId },
+          $push: { users: user._id },
       },
       { new: true }
-  ).populate("users", "-password")
-    .populate("teamAdmin", "-password");
+    ).populate("users", "-password")
+      .populate("teamAdmin", "-password");
 
-  if (!added) {
-      return res.status(404).json("Team not found");
-  } else {
-      res.json(added);
+    if (!added) {
+        return res.status(404).json("Team not found");
+    } else {
+        res.status(200).json(added);
+    }
+  } catch(error) {
+    res.status(500).json({error:error.message});
   }
+  
 });
+
+// 拒絕user加入
+router.patch("/denyForJoin", authMiddleware, async(req,res) => {
+  // delete askedUser
+  const { userId, teamId } = req.body;
+
+  try{
+    const team = await Team.findByIdAndDelete(
+      teamId,
+      {
+        $pull: { askedUsers: userId }
+      },
+      { new : true}
+    );
+
+    if(!team) {
+      res.status(400).json({Message: 'Team not found'});
+    }
+
+    res.status(200).json({ Message: 'Deny user for joining'});
+  } catch (error){
+    res.status(500).json({ error: error.message })
+  }
+})
 
 // 寄送邀請給 user
 router.post("/invite", authMiddleware, async (req,res) => {
@@ -184,10 +254,10 @@ router.post("/invite", authMiddleware, async (req,res) => {
       { new: true}
     )
 
-    if (!added) {
+    if (!addNotice) {
       return res.status(404).json("Team not found");
     } else {
-        res.json(added);
+        res.json(addNotice);
     }
   } catch(error){
     res.status(400).json({ error: error.message });
@@ -199,8 +269,6 @@ router.post("/invite", authMiddleware, async (req,res) => {
 // create message and store in the Message & Team Collection
 router.post("/pushNotice", authMiddleware,async (req, res) => {
     const { senderId, content, teamId,access } = req.body;
-    
-    console.log(req.body);
 
     try {
       // 將message存入Team lastMessage
@@ -225,17 +293,56 @@ router.post("/pushNotice", authMiddleware,async (req, res) => {
 
 });
 
-router.get("/getNotice/:teamId", authMiddleware,async (req, res) => {
-
-  const { teamId } = req.params;
+// 查詢單一隊伍公告
+router.get("/getNotice/:_id",async (req, res) => {
+  const { _id } = req.params;
   // get the notice from the team
   try {
-    const team = await Team.findById(teamId);
-    console.log(team.notice);
-    res.status(200).json(team.notice);
+    const team = await Team.findById(_id).populate('notice.sender');
+    const teamNotices = team.notice.map(notice => ({
+      noticeId:notice._id,
+      sender:notice.sender.name,
+      content:notice.content,
+      createdAt:formatDate(notice.createdAt)
+    }))
+    res.status(200).json(teamNotices);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+// 隊友資訊
+router.post("/getUsersOfTeam", async(req, res) => {
+  const { teamId } = req.body;
+
+  try {
+    const team = await Team.findById(teamId).populate("users", "name");
+
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    const usersData = await Promise.all(team.users.map(async (user) => {
+      const form = await Form.findOne({ userId: user._id });
+      return {
+        name: user.name,
+        identity: form ? form.identity : "尚未透露",
+      };
+    }));
+
+    res.json(usersData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+
+})
+
+const formatDate = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 module.exports = router;
