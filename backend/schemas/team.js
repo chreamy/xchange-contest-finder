@@ -12,7 +12,7 @@ const teamSchema = new Schema({
 
     contestId:{
         type:Schema.Types.ObjectId,
-        ref:"Contest",
+        ref:"Contests",
         required:true,
     },
 
@@ -39,6 +39,12 @@ const teamSchema = new Schema({
             type:Boolean,
             default:true,
         }
+    }],
+
+    // 要求加入的user
+    askedUsers:[{
+        type:Schema.Types.ObjectId,
+        ref:"User"
     }],
 
     teamAdmin:{
